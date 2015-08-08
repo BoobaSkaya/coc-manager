@@ -38,7 +38,9 @@ public class Hdv extends Building{
     public BuildingType getType() {
         return BuildingType.HDV;
     }
-    
-    
-    
+
+	@Override
+	public Config getConfig() {
+		return Config.defaultConfig();
+	}
 }

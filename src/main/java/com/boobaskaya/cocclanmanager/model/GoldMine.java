@@ -28,4 +28,10 @@ public class GoldMine extends Building{
     public BuildingType getType() {
         return BuildingType.GOLD_MINE;
     }
+
+	@Override
+	public Config getConfig() {
+		return Config.defaultConfig();
+	}
+
 }

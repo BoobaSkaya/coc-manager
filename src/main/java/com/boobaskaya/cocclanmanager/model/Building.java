@@ -34,5 +34,7 @@ public abstract class Building  {
     }
     public abstract BuildingType getType();
     public abstract int getMaxLevel(Hdv hdv);
+
+	public abstract Config getConfig();
     
 }
