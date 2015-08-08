@@ -16,88 +16,73 @@
  */
 package com.boobaskaya.cocclanmanager.model;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 public class Config {
 
 	private static Config defaultConfig = null;
 
-	private final ArrayList<Level> levels = new ArrayList<>();
+	private final HashMap<Integer, CSVRecord> levels = new HashMap<>();
+
+	public static final String LEVEL = "Level ";
+
+	public static final String DPS = "Damage per Second ";
 
 	private Config() {
 
 	}
 
-	public ArrayList<Level> getLevels() {
+	public HashMap<Integer, CSVRecord> getLevels() {
 		return levels;
 	}
 
-	private void addLevel(Level level) {
-		levels.add(level);
+	private void addLevel(CSVRecord levelConfig) {
+		// retrieve the level of the levelConfiguration
+		Integer level = Integer.parseInt(levelConfig.get(LEVEL));
+		levels.put(level, levelConfig);
 	}
 
 	public static Config parse(String filename) throws ParseException {
 		Config result = new Config();
 		// Retrieve input stream
-		InputStream is = Config.class.getResourceAsStream(filename);
+		InputStream is = Config.class.getResourceAsStream("config/" + filename);
 		if (is == null) {
 			throw new ParseException(String.format("Failed to find file %s", filename), 0);
 		}
-		Scanner scanner = new Scanner(is);
 
-		// first line is headers skip it
-		scanner.nextLine();
-		// Then retrieve level config
-		while (scanner.hasNext()) {
-			String line = scanner.nextLine();
-			result.addLevel(new Level(line));
+		try {
+			CSVFormat format = CSVFormat.DEFAULT.withHeader();
+			format = format.withDelimiter(';');
+
+			CSVParser parser = new CSVParser(new InputStreamReader(is), format);
+			for (CSVRecord record : parser) {
+				result.addLevel(record);
+			}
+			parser.close();
+		} catch (IOException | IllegalArgumentException e) {
+			throw new ParseException("Error while reading " + filename + " :" + e.getMessage(), 0);
 		}
-		scanner.close();
 		return result;
 	}
 
-	static class Level {
 
-		// Level Damage per Second Damage per Shot Hitpoints Cost Gold Build
-		// Time Experience Gained XP Town Hall Level Required
-
-		int level;
-		int dps;
-		float damagePershot;
-		int hitPoints;
-		int costGold;
-		String buildTime;
-		int experience;
-		int hdvLevel;
-
-		Level(String line) {
-
-			String[] split = line.split("\\t");
-			level = Integer.parseInt(split[0].trim());
-			dps = Integer.parseInt(split[1].trim());
-			damagePershot = Float.parseFloat(split[2].trim());
-			hitPoints = Integer.parseInt(split[3].trim().replace(",", ""));
-			costGold = Integer.parseInt(split[4].trim().replace(",", ""));
-			buildTime = split[5].trim();
-			experience = Integer.parseInt(split[6].trim());
-			hdvLevel = Integer.parseInt(split[7].trim());
-
-		}
-	}
 
 	public static Config defaultConfig() {
 		if (defaultConfig == null) {
 			try {
-				defaultConfig = Config.parse("default.cfg");
+				defaultConfig = Config.parse("default-levels.csv");
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-
 		return defaultConfig;
 	}
-
 }

@@ -17,25 +17,37 @@
 package com.boobaskaya.cocclanmanager.model;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import junit.framework.Assert;
+import java.util.HashMap;
+
+import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class ConfigTest {
     
+	private final String[] CONFIG_FILES = new String[] { "gold_mine-levels.csv", "cannon-levels.csv",
+			"default-levels.csv" };
+
     public ConfigTest() {
     }
     
     @Test
     public void testCannonConfig() throws ParseException {
         //parse cannon config
-        Config c = Config.parse("cannon.cfg");
-        ArrayList<Config.Level> levels = c.getLevels();
-        Config.Level lvl1 = levels.get(0);
-        Assert.assertEquals(13, levels.size());
-        Assert.assertEquals(1, lvl1.level);
-        Assert.assertEquals(9, lvl1.dps);
-        
+		Config c = Config.parse("cannon-levels.csv");
+		HashMap<Integer, CSVRecord> levels = c.getLevels();
+		Assert.assertEquals(13, levels.size());
+		Assert.assertEquals("9", levels.get(1).get(Config.DPS));
+		Assert.assertEquals("11", levels.get(2).get(Config.DPS));
     
     }
+
+	@Test
+	public void testAllConfigs() throws ParseException {
+		for (String s : CONFIG_FILES) {
+			Config.parse(s);
+		}
+	}
+
 }

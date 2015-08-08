@@ -16,10 +16,13 @@
  */
 package com.boobaskaya.cocclanmanager.model;
 
+import java.text.ParseException;
 
 public class GoldMine extends Building{
 
-    @Override
+	private static Config config;
+
+	@Override
     public int getMaxLevel(Hdv hdv) {
         return 12;
     }
@@ -31,7 +34,14 @@ public class GoldMine extends Building{
 
 	@Override
 	public Config getConfig() {
-		return Config.defaultConfig();
+		if (config == null) {
+			try {
+				config = Config.parse("gold_mine-levels.csv");
+			} catch (ParseException e) {
+				config = Config.defaultConfig();
+			}
+		}
+		return config;
 	}
 
 }

@@ -35,7 +35,7 @@ public class Cannon extends Building {
 	public Config getConfig() {
 		if (config == null) {
 			try {
-				config = Config.parse("cannon.cfg");
+				config = Config.parse("cannon-levels.csv");
 			} catch (ParseException e) {
 				config = Config.defaultConfig();
 			}
