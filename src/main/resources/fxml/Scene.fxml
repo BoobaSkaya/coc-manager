@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.boobaskaya.cocclanmanager.FXMLController">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="clan">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="367.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="pseudoColumn" prefWidth="75.0" text="pseudo">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="pseudo" /> 
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                  <TableColumn fx:id="hdvColumn" prefWidth="75.0" text="hdv">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="hdv" /> 
+                                        </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="attack" />
+                                </columns>
+                              </TableView>
+                              <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                <items>
+                                    <Button mnemonicParsing="false" onAction="#addMember" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#rmMember" text="Rm" />
+                                </items>
+                              </ToolBar>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="member">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="106.0" layoutY="14.0" prefHeight="327.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                <items>
+                                    <Label text="Player" />
+                                    <ComboBox fx:id="cbMember" onAction="#cbMemberAction" prefWidth="150.0" />
+                                    <Label text="HDV" />
+                                    <ComboBox fx:id="cbHdv" onAction="#cbHdvAction" prefWidth="150.0" />
+                                </items>
+                              </ToolBar>
+                              <TableView fx:id="buildingTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Type" >
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="type" /> 
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="Level" >
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="level" /> 
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                </columns>
+                              </TableView>
+                              <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                 <items>
+                                    <Label text="Building" />
+                                    <ComboBox fx:id="cbBuilding" onAction="#cbBuildingAction" prefWidth="150.0" />
+                                    <Label text="level" />
+                                    <ComboBox fx:id="cbLevel" onAction="#cbLevelAction" prefWidth="150.0" />
+                                    <Button mnemonicParsing="false" onAction="#addBuilding" text="+" />
+                                    <Button mnemonicParsing="false" onAction="#rmBuilding" text="-" />
+                                 </items>
+                              </ToolBar>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button mnemonicParsing="false" onAction="#load" text="(Re)Load" />
+            <Button mnemonicParsing="false" onAction="#save" text="Save" />
+        </items>
+      </ToolBar>
+   </top>
+</BorderPane>
