@@ -2,14 +2,16 @@
 package com.boobaskaya.cocclanmanager.model;
 
 import java.util.Objects;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 @XmlRootElement
@@ -104,6 +106,6 @@ public class Player {
     public String toString() {
         return "Player{" 
                 + "pseudo=" + pseudo.getValue()
-                + "hdv="    + hdv.getValue()+ '}';
+                + " hdv=" + hdv.getValue() + '}';
     }
 }
