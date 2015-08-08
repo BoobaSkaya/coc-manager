@@ -1,5 +1,13 @@
 package com.boobaskaya.cocclanmanager;
 
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.bind.JAXBException;
+
 import com.boobaskaya.cocclanmanager.model.Building;
 import com.boobaskaya.cocclanmanager.model.BuildingType;
 import com.boobaskaya.cocclanmanager.model.Cannon;
@@ -7,11 +15,7 @@ import com.boobaskaya.cocclanmanager.model.Clan;
 import com.boobaskaya.cocclanmanager.model.Hdv;
 import com.boobaskaya.cocclanmanager.model.Player;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +26,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javax.xml.bind.JAXBException;
 
 public class FXMLController implements Initializable {
 
@@ -123,8 +126,10 @@ public class FXMLController implements Initializable {
     private void cbMemberAction(ActionEvent event) {
         System.out.println("Member " + cbMember.getValue() + " selected");
         Player selectedPlayer = cbMember.getValue();
-        buildingTable.setItems(selectedPlayer.getBuildings());
-        cbHdv.setValue(selectedPlayer.getHdv());
+		if (selectedPlayer != null) {
+			buildingTable.setItems(selectedPlayer.getBuildings());
+			cbHdv.setValue(selectedPlayer.getHdv());
+		}
     }
 
     @FXML
