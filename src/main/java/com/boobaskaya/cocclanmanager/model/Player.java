@@ -63,10 +63,6 @@ public class Player {
         return this.hdvBuilding.getLevel();
     }
     
-    public Hdv getHdvBuilding(){
-        return this.hdvBuilding;
-    }
-
     public SimpleIntegerProperty hdvProperty(){
         return hdv;
     }
@@ -100,8 +96,6 @@ public class Player {
         return Objects.equals(this.hdv.getValue(), other.hdv.getValue());
     }
     
-    
-
     @Override
     public String toString() {
         return "Player{" 
