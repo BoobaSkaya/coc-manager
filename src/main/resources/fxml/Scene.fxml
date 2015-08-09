@@ -39,6 +39,11 @@
                                             <PropertyValueFactory property="dps" /> 
                                         </cellValueFactory>
                                   </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="air dps">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="airdps" />
+                                       </cellValueFactory>
+                                    </TableColumn>
                                 </columns>
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">

@@ -24,16 +24,16 @@ public class TownHall extends Building{
     public TownHall(){
         super();
     }
-    
+
     public TownHall(int level){
         super(level);
     }
-    
+
     @Override
     public int getMaxLevel(TownHall hdv) {
         return 10;
     }
-    
+
     @Override
     public BuildingType getType() {
         return BuildingType.TOWN_HALL;
@@ -42,5 +42,10 @@ public class TownHall extends Building{
 	@Override
 	public Config getConfig() {
 		return Config.defaultConfig();
+	}
+
+	@Override
+	public DPSType getDPSType() {
+		return DPSType.NODPS;
 	}
 }

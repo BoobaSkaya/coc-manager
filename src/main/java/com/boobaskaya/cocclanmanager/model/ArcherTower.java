@@ -37,4 +37,9 @@ public class ArcherTower extends Building {
 		return config;
 	}
 
+	@Override
+	public DPSType getDPSType() {
+		return DPSType.AIR_GROUND;
+	}
+
 }

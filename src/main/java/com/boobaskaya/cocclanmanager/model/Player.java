@@ -30,6 +30,7 @@ public class Player {
 	private final ObservableList<Building> buildings;
 
 	private final SimpleIntegerProperty dps;
+	private final SimpleIntegerProperty airdps;
 	private final SimpleIntegerProperty hitpoints;
 
 	public Player() {
@@ -43,6 +44,7 @@ public class Player {
 		this.townHallBuilding = new TownHall(1);
 		this.buildings = FXCollections.observableArrayList();
 		this.dps = new SimpleIntegerProperty();
+		this.airdps = new SimpleIntegerProperty();
 		this.hitpoints = new SimpleIntegerProperty();
 
 		this.buildings.addListener(new ListChangeListener<Building>() {
@@ -58,11 +60,13 @@ public class Player {
 
 	protected void updateStats() {
 		// update total DPS
-		int dps = buildings.stream().mapToInt(p -> p.getDPS()).sum();
-		this.dps.set(dps);
+		this.dps.set(buildings.stream().mapToInt(p -> p.getDPS()).sum());
 		// update total hitpoints
-		int hitpoints = buildings.stream().mapToInt(p -> p.getHitPoints()).sum();
-		this.hitpoints.set(hitpoints);
+		this.hitpoints.set(buildings.stream().mapToInt(p -> p.getHitPoints()).sum());
+		// compute AIR DPS using the AIR and AIR_GROUND buildings
+		this.airdps.set(
+				buildings.stream().filter(p -> p.getDPSType() == DPSType.AIR || p.getDPSType() == DPSType.AIR_GROUND)
+						.mapToInt(p -> p.getDPS()).sum());
 	}
 
 	@XmlAttribute(name = "pseudo")
@@ -139,5 +143,9 @@ public class Player {
 
 	public SimpleIntegerProperty hitpointsProperty() {
 		return this.hitpoints;
+	}
+
+	public SimpleIntegerProperty airdpsProperty() {
+		return this.airdps;
 	}
 }

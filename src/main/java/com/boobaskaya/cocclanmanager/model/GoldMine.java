@@ -44,4 +44,8 @@ public class GoldMine extends Building{
 		return config;
 	}
 
+	@Override
+	public DPSType getDPSType() {
+		return DPSType.NODPS;
+	}
 }

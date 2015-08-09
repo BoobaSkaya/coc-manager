@@ -15,11 +15,11 @@ public class Cannon extends Building {
     public Cannon(){
         super();
     }
-    
+
     public Cannon(int level) {
         super(level);
     }
-    
+
     @Override
     public int getMaxLevel(TownHall hdv) {
         Objects.nonNull(hdv);
@@ -42,6 +42,10 @@ public class Cannon extends Building {
 		}
 		return config;
 	}
-    
-    
+
+	@Override
+	public DPSType getDPSType() {
+		return DPSType.GROUND;
+	}
+
 }
