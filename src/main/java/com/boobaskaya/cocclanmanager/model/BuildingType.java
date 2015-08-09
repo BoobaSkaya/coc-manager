@@ -6,7 +6,7 @@
 package com.boobaskaya.cocclanmanager.model;
 
 public enum BuildingType {
-    HDV,
+	TOWN_HALL,
     //defense
     ARCHER_TOWER,
     WIZARD_TOWER,

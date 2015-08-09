@@ -8,7 +8,7 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-@XmlSeeAlso({Cannon.class, GoldMine.class, Hdv.class})
+@XmlSeeAlso({Cannon.class, GoldMine.class, TownHall.class})
 public abstract class Building  {
     private SimpleIntegerProperty level;
 	private SimpleIntegerProperty hitpoints;
@@ -41,6 +41,10 @@ public abstract class Building  {
         return new SimpleStringProperty(getType().toString());
     }
 
+	public SimpleIntegerProperty levelProperty() {
+		return this.level;
+	}
+
 	public SimpleIntegerProperty hitpointsProperty() {
 		return this.hitpoints;
 	}
@@ -51,7 +55,7 @@ public abstract class Building  {
 
     public abstract BuildingType getType();
 
-    public abstract int getMaxLevel(Hdv hdv);
+    public abstract int getMaxLevel(TownHall hdv);
 
 	public abstract Config getConfig();
 

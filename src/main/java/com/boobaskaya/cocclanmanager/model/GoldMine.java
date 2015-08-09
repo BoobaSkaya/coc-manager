@@ -23,7 +23,7 @@ public class GoldMine extends Building{
 	private static Config config;
 
 	@Override
-    public int getMaxLevel(Hdv hdv) {
+    public int getMaxLevel(TownHall hdv) {
         return 12;
     }
 

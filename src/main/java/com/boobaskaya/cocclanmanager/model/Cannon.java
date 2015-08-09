@@ -21,7 +21,7 @@ public class Cannon extends Building {
     }
     
     @Override
-    public int getMaxLevel(Hdv hdv) {
+    public int getMaxLevel(TownHall hdv) {
         Objects.nonNull(hdv);
         return maxLevels[hdv.getLevel()];
     }

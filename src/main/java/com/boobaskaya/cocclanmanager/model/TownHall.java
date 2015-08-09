@@ -19,24 +19,24 @@ package com.boobaskaya.cocclanmanager.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Hdv extends Building{
+public class TownHall extends Building{
 
-    public Hdv(){
+    public TownHall(){
         super();
     }
     
-    public Hdv(int level){
+    public TownHall(int level){
         super(level);
     }
     
     @Override
-    public int getMaxLevel(Hdv hdv) {
+    public int getMaxLevel(TownHall hdv) {
         return 10;
     }
     
     @Override
     public BuildingType getType() {
-        return BuildingType.HDV;
+        return BuildingType.TOWN_HALL;
     }
 
 	@Override

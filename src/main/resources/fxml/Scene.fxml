@@ -24,9 +24,9 @@
                                             <PropertyValueFactory property="pseudo" /> 
                                         </cellValueFactory>
                                     </TableColumn>
-                                  <TableColumn fx:id="hdvColumn" prefWidth="75.0" text="hdv">
+                                  <TableColumn fx:id="TownHallColumn" prefWidth="75.0" text="TownHall">
                                         <cellValueFactory>
-                                            <PropertyValueFactory property="hdv" /> 
+                                            <PropertyValueFactory property="townHall" /> 
                                         </cellValueFactory>
                                   </TableColumn>
                                   <TableColumn prefWidth="75.0" text="HitPoints">
@@ -63,8 +63,8 @@
                                 <items>
                                     <Label text="Player" />
                                     <ComboBox fx:id="cbMember" onAction="#cbMemberAction" prefWidth="150.0" />
-                                    <Label text="HDV" />
-                                    <ComboBox fx:id="cbHdv" onAction="#cbHdvAction" prefWidth="150.0" />
+                                    <Label text="TownHall" />
+                                    <ComboBox fx:id="cbTownHall" onAction="#cbTownHallAction" prefWidth="150.0" />
                                 </items>
                               </ToolBar>
                               <TableView fx:id="buildingTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

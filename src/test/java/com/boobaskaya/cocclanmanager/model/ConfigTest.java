@@ -23,13 +23,13 @@ import org.junit.Test;
 import junit.framework.Assert;
 
 public class ConfigTest {
-    
+
 	private final String[] CONFIG_FILES = new String[] { "gold_mine-levels.csv", "cannon-levels.csv",
-			"default-levels.csv" };
+			"town_hall-levels.csv", "default-levels.csv" };
 
     public ConfigTest() {
     }
-    
+
     @Test
     public void testCannonConfig() throws ParseException {
         //parse cannon config
@@ -44,7 +44,7 @@ public class ConfigTest {
 		Assert.assertEquals(420, c.getHitPoints(1));
 		Assert.assertEquals(470, c.getHitPoints(2));
 		Assert.assertEquals(1260, c.getHitPoints(13));
-    
+
     }
 
 	@Test

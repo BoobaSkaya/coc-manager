@@ -6,7 +6,7 @@
 package com.boobaskaya.cocclanmanager.model;
 
 import com.boobaskaya.cocclanmanager.model.Cannon;
-import com.boobaskaya.cocclanmanager.model.Hdv;
+import com.boobaskaya.cocclanmanager.model.TownHall;
 import com.boobaskaya.cocclanmanager.model.Player;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 import java.io.File;
@@ -23,10 +23,10 @@ public class PlayerTest {
     public void testSerialization() throws IOException, JAXBException{
         Player p1 = new Player();
         p1.setPseudo("lena");
-        p1.setHdv(10);
+        p1.setTownHall(10);
         p1.getBuildings().add(new Cannon(10));
         p1.getBuildings().add(new Cannon(10));
-        p1.getBuildings().add(new Hdv(10));
+        p1.getBuildings().add(new TownHall(10));
         JAXBTools.toFile(p1, Player.class, testOutputFile);
         Player o  = JAXBTools.fromFile(testOutputFile, Player.class);
         Assert.assertTrue(o instanceof Player);

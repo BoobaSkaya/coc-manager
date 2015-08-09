@@ -13,6 +13,7 @@ import com.boobaskaya.cocclanmanager.model.BuildingType;
 import com.boobaskaya.cocclanmanager.model.Cannon;
 import com.boobaskaya.cocclanmanager.model.Clan;
 import com.boobaskaya.cocclanmanager.model.Player;
+import com.boobaskaya.cocclanmanager.model.TownHall;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
 import javafx.collections.FXCollections;
@@ -42,13 +43,13 @@ public class FXMLController implements Initializable {
     @FXML
     private TableColumn<Player, String> pseudoColumn;
     @FXML
-    private TableColumn<Player, Integer> hdvColumn;
+	private TableColumn<Player, Integer> TownHallColumn;
     @FXML
     private TableView<Building> buildingTable;
     @FXML
     private ComboBox<Player> cbMember;
     @FXML
-    private ComboBox<Integer> cbHdv;
+	private ComboBox<Integer> cbTownHall;
     @FXML
     private ComboBox<BuildingType> cbBuilding;
     @FXML
@@ -101,7 +102,7 @@ public class FXMLController implements Initializable {
 				return cells;
 			}
 		});
-		cbHdv.setItems(FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+		cbTownHall.setItems(FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
 
         //
         setClan(new Clan());
@@ -163,14 +164,14 @@ public class FXMLController implements Initializable {
         Player selectedPlayer = cbMember.getValue();
 		if (selectedPlayer != null) {
 			buildingTable.setItems(selectedPlayer.getBuildings());
-			cbHdv.setValue(selectedPlayer.getHdv());
+			cbTownHall.setValue(selectedPlayer.getTownHall());
 		}
     }
 
     @FXML
-    private void cbHdvAction(ActionEvent event) {
-		LOGGER.info("cbHdv action to " + cbHdv.getValue());
-		cbMember.getValue().setHdv(cbHdv.getValue());
+	private void cbTownHallAction(ActionEvent event) {
+		LOGGER.info("cbHdv action to " + cbTownHall.getValue());
+		cbMember.getValue().setTownHall(cbTownHall.getValue());
     }
 
     @FXML
@@ -187,20 +188,18 @@ public class FXMLController implements Initializable {
     @FXML
     private void addBuilding(ActionEvent event) {
         switch (cbBuilding.getValue()) {
-            case CANNON:
+		case CANNON:
 			cbMember.getValue().addBuilding(new Cannon(cbLevel.getValue()));
                 break;
-            case HDV:
-			// cbMember.getValue().getBuildings().add(new
-			// Hdv(cbLevel.getValue()));
-			// never add an HDV building, Hdv is managed separately in Player
-			LOGGER.info("HDV are not added through this method --");
+		case TOWN_HALL:
+			cbMember.getValue().getBuildings().add(new TownHall(cbLevel.getValue()));
+			// never add an TownHall building, TownHall is managed separately in
+			// Player
+			LOGGER.info("TownHall are not added through this method --");
                 break;
             default:
                 System.err.println("Unhandled building type : " + cbBuilding.getValue());
-
         }
-
     }
 
     @FXML

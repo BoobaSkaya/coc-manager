@@ -14,33 +14,32 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-
 @XmlRootElement
 public class Player {
 
-    private static int INDEX = 0;
+	private static int INDEX = 0;
 
-    private final SimpleStringProperty pseudo;
+	private final SimpleStringProperty pseudo;
 
-    private final SimpleIntegerProperty hdv;
+	private final SimpleIntegerProperty townHall;
 
-    private final Hdv hdvBuilding;
+	private final TownHall townHallBuilding;
 
-    private final ObservableList<Building> buildings;
+	private final ObservableList<Building> buildings;
 
 	private final SimpleIntegerProperty dps;
 	private final SimpleIntegerProperty hitpoints;
 
-    public Player(){
-        this("player#"+(INDEX));
-    }
+	public Player() {
+		this("player#" + (INDEX));
+	}
 
-    public Player(String pseudo) {
-        Objects.requireNonNull(pseudo);
-        this.pseudo = new SimpleStringProperty(pseudo);
-        this.hdv =  new SimpleIntegerProperty(1);
-        this.hdvBuilding = new Hdv(1);
-        this.buildings = FXCollections.observableArrayList();
+	public Player(String pseudo) {
+		Objects.requireNonNull(pseudo);
+		this.pseudo = new SimpleStringProperty(pseudo);
+		this.townHall = new SimpleIntegerProperty(1);
+		this.townHallBuilding = new TownHall(1);
+		this.buildings = FXCollections.observableArrayList();
 		this.dps = new SimpleIntegerProperty();
 		this.hitpoints = new SimpleIntegerProperty();
 
@@ -52,8 +51,8 @@ public class Player {
 			}
 
 		});
-        INDEX++;
-    }
+		INDEX++;
+	}
 
 	protected void updateStats() {
 		// update total DPS
@@ -65,67 +64,46 @@ public class Player {
 	}
 
 	@XmlAttribute(name = "pseudo")
-    public void setPseudo(String pseudo){
-        this.pseudo.set(pseudo);
-    }
+	public void setPseudo(String pseudo) {
+		this.pseudo.set(pseudo);
+	}
 
-    public String getPseudo(){
-        return pseudo.getValue();
-    }
+	public String getPseudo() {
+		return pseudo.getValue();
+	}
 
-    public SimpleStringProperty pseudoProperty(){
-        return pseudo;
-    }
+	public SimpleStringProperty pseudoProperty() {
+		return pseudo;
+	}
 
-    @XmlAttribute(name="hdv")
-    public void setHdv(int hdv){
-        this.hdv.set(hdv);
-        this.hdvBuilding.setLevel(hdv);
-    }
+	public SimpleIntegerProperty townHallProperty() {
+		return townHall;
+	}
 
-    public int getHdv(){
-        return this.hdvBuilding.getLevel();
-    }
+	@XmlAttribute(name = "townHall")
+	public void setTownHall(int hdv) {
+		this.townHall.set(hdv);
+		this.townHallBuilding.setLevel(hdv);
+	}
 
-    public SimpleIntegerProperty hdvProperty(){
-        return hdv;
-    }
+	public int getTownHall() {
+		return this.townHallBuilding.getLevel();
+	}
 
-    @XmlElementWrapper(name = "buildings")
-    @XmlElement(name  = "building")
-    public ObservableList<Building> getBuildings(){
-        return this.buildings;
-    }
+	public SimpleIntegerProperty hdvProperty() {
+		return townHall;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.pseudo.getValue());
-        hash = 59 * hash + Objects.hashCode(this.hdv.getValue());
-        return hash;
-    }
+	@XmlElementWrapper(name = "buildings")
+	@XmlElement(name = "building")
+	public ObservableList<Building> getBuildings() {
+		return this.buildings;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Player other = (Player) obj;
-        if (!Objects.equals(this.pseudo.getValue(), other.pseudo.getValue())) {
-            return false;
-        }
-        return Objects.equals(this.hdv.getValue(), other.hdv.getValue());
-    }
-
-    @Override
-    public String toString() {
-        return "Player{"
-                + "pseudo=" + pseudo.getValue()
-                + " hdv=" + hdv.getValue() + '}';
-    }
+	@Override
+	public String toString() {
+		return "Player{" + "pseudo=" + pseudo.getValue() + " townHall=" + townHall.getValue() + '}';
+	}
 
 	public void addBuilding(Building building) {
 		buildings.add(building);
