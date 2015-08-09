@@ -101,6 +101,29 @@ public class Player {
 	}
 
 	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 59 * hash + Objects.hashCode(this.pseudo.getValue());
+		hash = 59 * hash + Objects.hashCode(this.townHall.getValue());
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Player other = (Player) obj;
+		if (!Objects.equals(this.pseudo.getValue(), other.pseudo.getValue())) {
+			return false;
+		}
+		return Objects.equals(this.townHall.getValue(), other.townHall.getValue());
+	}
+
+	@Override
 	public String toString() {
 		return "Player{" + "pseudo=" + pseudo.getValue() + " townHall=" + townHall.getValue() + '}';
 	}
