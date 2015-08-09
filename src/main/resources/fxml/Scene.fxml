@@ -29,7 +29,16 @@
                                             <PropertyValueFactory property="hdv" /> 
                                         </cellValueFactory>
                                   </TableColumn>
-                                  <TableColumn prefWidth="75.0" text="attack" />
+                                  <TableColumn prefWidth="75.0" text="HitPoints">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="hitpoints" />
+                                       </cellValueFactory>
+                                    </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="dps">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="dps" /> 
+                                        </cellValueFactory>
+                                  </TableColumn>
                                 </columns>
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
@@ -73,6 +82,11 @@
                                     <TableColumn prefWidth="75.0" text="HitPoints">
                                        <cellValueFactory>
                                           <PropertyValueFactory property="hitpoints" />
+                                       </cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn prefWidth="75.0" text="dps">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="dps" />
                                        </cellValueFactory>
                                     </TableColumn>
                                 </columns>

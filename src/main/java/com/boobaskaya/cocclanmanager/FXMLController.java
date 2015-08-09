@@ -188,7 +188,7 @@ public class FXMLController implements Initializable {
     private void addBuilding(ActionEvent event) {
         switch (cbBuilding.getValue()) {
             case CANNON:
-                cbMember.getValue().getBuildings().add(new Cannon(cbLevel.getValue()));
+			cbMember.getValue().addBuilding(new Cannon(cbLevel.getValue()));
                 break;
             case HDV:
 			// cbMember.getValue().getBuildings().add(new
