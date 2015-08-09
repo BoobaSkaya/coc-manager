@@ -8,13 +8,19 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
+import com.boobaskaya.cocclanmanager.model.AirDefense;
 import com.boobaskaya.cocclanmanager.model.ArcherTower;
 import com.boobaskaya.cocclanmanager.model.Building;
 import com.boobaskaya.cocclanmanager.model.BuildingType;
 import com.boobaskaya.cocclanmanager.model.Cannon;
 import com.boobaskaya.cocclanmanager.model.Clan;
 import com.boobaskaya.cocclanmanager.model.GoldMine;
+import com.boobaskaya.cocclanmanager.model.HiddenTesla;
+import com.boobaskaya.cocclanmanager.model.InfernoTower;
+import com.boobaskaya.cocclanmanager.model.Mortar;
 import com.boobaskaya.cocclanmanager.model.Player;
+import com.boobaskaya.cocclanmanager.model.WizardTower;
+import com.boobaskaya.cocclanmanager.model.XBow;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
 import javafx.collections.FXCollections;
@@ -191,6 +197,9 @@ public class FXMLController implements Initializable {
 	private void addBuilding(ActionEvent event) {
 		Building newBuilding = null;
 		switch (cbBuilding.getValue()) {
+		case AIR_DEFENSE:
+			newBuilding = new AirDefense();
+			break;
 		case ARCHER_TOWER:
 			newBuilding = new ArcherTower();
 			break;
@@ -200,9 +209,24 @@ public class FXMLController implements Initializable {
 		case GOLD_MINE:
 			newBuilding = new GoldMine();
 			break;
+		case HIDDEN_TESLA:
+			newBuilding = new HiddenTesla();
+			break;
+		case INFERNO_TOWER:
+			newBuilding = new InfernoTower();
+			break;
+		case MORTAR:
+			newBuilding = new Mortar();
+			break;
 		case TOWN_HALL:
 			// newBuilding = new TownHall();
 			LOGGER.info("Do not add town hall from here");
+			break;
+		case WIZARD_TOWER:
+			newBuilding = new WizardTower();
+			break;
+		case X_BOW:
+			newBuilding = new XBow();
 			break;
 		default:
 			System.err.println("Unhandled building type : " + cbBuilding.getValue());

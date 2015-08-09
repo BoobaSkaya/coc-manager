@@ -1,0 +1,9 @@
+Level ;Damage per Second ;Damage per Shot ;Hitpoints ;Cost  ;Build Time ;Experience Gained  ;Town Hall Level Required 
+1;11;14.3 ;620;180,000;12 hours ;207;5
+2;13;16.9 ;650;360,000;1 day ;293;5
+3;16;20.8 ;680;720,000;2 days ;415;6
+4;20;26;730;1,280,000 ;3 days ;509;7
+5;24;31.2 ;790;1,960,000 ;4 days ;587;8
+6;32;41.6 ;850;2,680,000 ;5 days ;657;8
+7;40;52;930;5,360,000 ;7 days ;777;9
+8;48;62.4 ;1010;6,480,000 ;10 days ;929;10

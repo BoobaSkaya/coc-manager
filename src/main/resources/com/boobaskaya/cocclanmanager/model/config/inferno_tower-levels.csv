@@ -1,0 +1,4 @@
+Level ;DPS Initial ;Damage per Second ;DPS After 5 Seconds ;DPS Each Target ;Number of Targets ;HitPoints ;Cost to Load  ;Cost  ;Build Time ;Experience Gained  ;Town Hall Level Required 
+1;24;100;1,000;30;5;1,500;500;5,000,000 ;7 days ;777;10
+2;30;125;1,250;38;5;1,800;600;6,500,000 ;10 days ;929;10
+3;36;140;1,400;42;5;2,100;700;8,000,000 ;14 days ;1,099;10
