@@ -68,6 +68,8 @@ public class FXMLController implements Initializable {
             }
         });
         // Member page
+		buildingTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
         cbBuilding.setValue(BuildingType.CANNON);
         cbLevel.setItems(FXCollections.observableArrayList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}));
@@ -203,5 +205,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void rmBuilding(ActionEvent event) {
+		// get the selected Player
+		Player player = cbMember.getValue();
+		// get the selected buildings
+		buildingTable.getSelectionModel().getSelectedItems().stream().forEach(p -> player.getBuildings().remove(p));
+
     }
 }
