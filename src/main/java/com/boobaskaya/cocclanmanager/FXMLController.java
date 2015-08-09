@@ -12,7 +12,6 @@ import com.boobaskaya.cocclanmanager.model.Building;
 import com.boobaskaya.cocclanmanager.model.BuildingType;
 import com.boobaskaya.cocclanmanager.model.Cannon;
 import com.boobaskaya.cocclanmanager.model.Clan;
-import com.boobaskaya.cocclanmanager.model.Hdv;
 import com.boobaskaya.cocclanmanager.model.Player;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
@@ -22,12 +21,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 public class FXMLController implements Initializable {
+
+	private static final Logger LOGGER = Logger.getLogger("COC");
 
     private static final File clanFile = new File("clan.xml");
 
@@ -67,7 +71,36 @@ public class FXMLController implements Initializable {
         cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
         cbBuilding.setValue(BuildingType.CANNON);
         cbLevel.setItems(FXCollections.observableArrayList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}));
+
         cbLevel.setValue(1);
+		// buttonCell permit to customize the combox box cell when displayed
+		cbMember.setButtonCell(new ListCell<Player>() {
+			@Override
+			public void updateItem(Player item, boolean empty) {
+				super.updateItem(item, empty);
+				if (item != null) {
+					setText(item.getPseudo());
+				}
+			}
+		});
+		// cellFactory permits to customize combobox cells when dropped down
+		cbMember.setCellFactory(new Callback<ListView<Player>, ListCell<Player>>() {
+			@Override
+			public ListCell<Player> call(ListView<Player> arg0) {
+				ListCell<Player> cells = new ListCell<Player>() {
+					@Override
+					public void updateItem(Player item, boolean empty) {
+						super.updateItem(item, empty);
+						if (item != null) {
+							setText(item.getPseudo());
+						}
+					}
+				};
+				return cells;
+			}
+		});
+		cbHdv.setItems(FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+
         //
         setClan(new Clan());
 
@@ -134,7 +167,8 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void cbHdvAction(ActionEvent event) {
-        cbMember.getValue().getHdvBuilding().setLevel(cbHdv.getValue());
+		LOGGER.info("cbHdv action to " + cbHdv.getValue());
+		cbMember.getValue().setHdv(cbHdv.getValue());
     }
 
     @FXML
@@ -155,7 +189,10 @@ public class FXMLController implements Initializable {
                 cbMember.getValue().getBuildings().add(new Cannon(cbLevel.getValue()));
                 break;
             case HDV:
-                cbMember.getValue().getBuildings().add(new Hdv(cbLevel.getValue()));
+			// cbMember.getValue().getBuildings().add(new
+			// Hdv(cbLevel.getValue()));
+			// never add an HDV building, Hdv is managed separately in Player
+			LOGGER.info("HDV are not added through this method --");
                 break;
             default:
                 System.err.println("Unhandled building type : " + cbBuilding.getValue());
