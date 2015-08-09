@@ -8,9 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 @XmlRootElement
-public class PointList {
+public class Player {
 	@XmlElement
-	ObservableList<Point> points = FXCollections.observableArrayList();
+	ObservableList<Building> buildings = FXCollections.observableArrayList();
 
 	@XmlAttribute
 	String name;

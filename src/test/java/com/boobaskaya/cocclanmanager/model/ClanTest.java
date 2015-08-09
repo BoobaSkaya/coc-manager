@@ -25,11 +25,11 @@ public class ClanTest {
         Clan c = new Clan("SonsOfIsildur");
         Player p = new Player("p1");
 		c.getMembers().add(p);
-		p.getBuildings().add(new TownHall(1));
+		p.addBuilding(new Cannon(1));
 
 		p = new Player("p2");
 		c.getMembers().add(p);
-		p.getBuildings().add(new TownHall(2));
+		p.addBuilding(new Cannon(2));
 
         JAXBTools.toFile(c, Clan.class, testOutputFile);
         Clan o = JAXBTools.fromFile(testOutputFile, Clan.class);

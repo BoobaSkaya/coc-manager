@@ -25,6 +25,8 @@ public class Player {
 
 	private final TownHall townHallBuilding;
 
+	@XmlElementWrapper(name = "buildings")
+	@XmlElement(name = "building")
 	private final ObservableList<Building> buildings;
 
 	private final SimpleIntegerProperty dps;
@@ -94,8 +96,6 @@ public class Player {
 		return townHall;
 	}
 
-	@XmlElementWrapper(name = "buildings")
-	@XmlElement(name = "building")
 	public ObservableList<Building> getBuildings() {
 		return this.buildings;
 	}
