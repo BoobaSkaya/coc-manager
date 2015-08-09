@@ -21,37 +21,47 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+import org.supercsv.cellprocessor.Trim;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvMapReader;
+import org.supercsv.prefs.CsvPreference;
 
 public class Config {
 
+	private final static Logger LOGGER = Logger.getLogger("COC");
+
 	private static Config defaultConfig = null;
 
-	private final HashMap<Integer, CSVRecord> levels = new HashMap<>();
+	private final HashMap<Integer, Map<String, String>> levels = new HashMap<>();
 
-	public static final String LEVEL = "Level ";
+	public static final String LEVEL = "level";
 
-	public static final String DPS = "Damage per Second ";
+	public static final String DPS = "damage per second";
 
-	private Config() {
+	private static final String HITPOINTS = "hitpoints";
 
+	private final String filename;
+
+	private Config(String filename) {
+		this.filename = filename;
 	}
 
-	public HashMap<Integer, CSVRecord> getLevels() {
-		return levels;
+	public Map<String, String> getLevel(int level) {
+		return levels.get(level);
 	}
 
-	private void addLevel(CSVRecord levelConfig) {
+	private void addLevelDefinition(Map<String, String> levelConfig) {
 		// retrieve the level of the levelConfiguration
-		Integer level = Integer.parseInt(levelConfig.get(LEVEL));
+		Integer level = Integer.parseInt((String) levelConfig.get(LEVEL));
 		levels.put(level, levelConfig);
 	}
 
 	public static Config parse(String filename) throws ParseException {
-		Config result = new Config();
+		Config result = new Config(filename);
 		// Retrieve input stream
 		InputStream is = Config.class.getResourceAsStream("config/" + filename);
 		if (is == null) {
@@ -59,14 +69,26 @@ public class Config {
 		}
 
 		try {
-			CSVFormat format = CSVFormat.DEFAULT.withHeader();
-			format = format.withDelimiter(';');
-
-			CSVParser parser = new CSVParser(new InputStreamReader(is), format);
-			for (CSVRecord record : parser) {
-				result.addLevel(record);
+			CsvMapReader reader = new CsvMapReader(new InputStreamReader(is),
+					CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+			// first line is headers
+			String[] headers = reader.getHeader(false);
+			// trim+lowercase the headers
+			for (int i = 0; i < headers.length; i++) {
+				headers[i] = headers[i].trim().toLowerCase();
 			}
-			parser.close();
+			
+			// then following lines are level configuration
+			CellProcessor[] cellProcessors = new CellProcessor[headers.length];
+			for (int i = 0; i < cellProcessors.length; i++) {
+				cellProcessors[i] = new Trim();
+			}
+			Map<String, String> row = reader.read(headers);
+			while (row != null) {
+				result.addLevelDefinition(row);
+				row = reader.read(headers);
+			}
+			reader.close();
 		} catch (IOException | IllegalArgumentException e) {
 			throw new ParseException("Error while reading " + filename + " :" + e.getMessage(), 0);
 		}
@@ -85,4 +107,37 @@ public class Config {
 		}
 		return defaultConfig;
 	}
+
+	public int getLevelNumber() {
+		return levels.keySet().size();
+	}
+
+	public Set<Integer> getLevels() {
+		return levels.keySet();
+	}
+
+	public int getDPS(int level) {
+		return getInt(level, DPS);
+	}
+
+	public int getHitPoints(int level) {
+		return getInt(level, HITPOINTS);
+	}
+
+	private int getInt(int level, String field) {
+		if (levels.get(level) != null && levels.get(level).get(field) != null) {
+			String inputValue = levels.get(level).get(field);
+			return Integer.parseInt(escapeInteger(inputValue));
+		} else if (levels.get(level) == null) {
+			LOGGER.severe(String.format("Failed to find level %d for config %s.", level, filename));
+		} else {
+			LOGGER.severe(String.format("Failed to find field %s for config %s.", field, filename));
+		}
+		return -1;
+	}
+
+	public static String escapeInteger(String badformated){
+		return badformated.replace(",", "");
+	}
+
 }

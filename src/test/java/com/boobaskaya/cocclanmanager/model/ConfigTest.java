@@ -17,9 +17,7 @@
 package com.boobaskaya.cocclanmanager.model;
 
 import java.text.ParseException;
-import java.util.HashMap;
 
-import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
 
 import junit.framework.Assert;
@@ -36,10 +34,16 @@ public class ConfigTest {
     public void testCannonConfig() throws ParseException {
         //parse cannon config
 		Config c = Config.parse("cannon-levels.csv");
-		HashMap<Integer, CSVRecord> levels = c.getLevels();
-		Assert.assertEquals(13, levels.size());
-		Assert.assertEquals("9", levels.get(1).get(Config.DPS));
-		Assert.assertEquals("11", levels.get(2).get(Config.DPS));
+
+		Assert.assertEquals(13, c.getLevelNumber());
+		Assert.assertEquals("9", c.getLevel(1).get(Config.DPS));
+		Assert.assertEquals(9, c.getDPS(1));
+		Assert.assertEquals("11", c.getLevel(2).get(Config.DPS));
+		Assert.assertEquals(11, c.getDPS(2));
+
+		Assert.assertEquals(420, c.getHitPoints(1));
+		Assert.assertEquals(470, c.getHitPoints(2));
+		Assert.assertEquals(1260, c.getHitPoints(13));
     
     }
 
