@@ -24,7 +24,8 @@ import junit.framework.Assert;
 
 public class ConfigTest {
 
-	private final String[] CONFIG_FILES = new String[] { "gold_mine-levels.csv", "cannon-levels.csv",
+	private final String[] CONFIG_FILES = new String[] { "archer_tower-levels.csv", "gold_mine-levels.csv",
+			"cannon-levels.csv",
 			"town_hall-levels.csv", "default-levels.csv" };
 
     public ConfigTest() {

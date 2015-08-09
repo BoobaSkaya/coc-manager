@@ -28,6 +28,7 @@ public class PlayerTest {
 		p1.addBuilding(new Cannon(10));
 		p1.addBuilding(new Cannon(10));
 		p1.addBuilding(new TownHall(10));
+		p1.addBuilding(new ArcherTower(5));
         JAXBTools.toFile(p1, Player.class, testOutputFile);
         Player o  = JAXBTools.fromFile(testOutputFile, Player.class);
         Assert.assertTrue(o instanceof Player);

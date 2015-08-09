@@ -8,7 +8,7 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-@XmlSeeAlso({Cannon.class, GoldMine.class, TownHall.class})
+@XmlSeeAlso({ ArcherTower.class, Cannon.class, GoldMine.class, TownHall.class })
 public abstract class Building  {
     private SimpleIntegerProperty level;
 	private SimpleIntegerProperty hitpoints;

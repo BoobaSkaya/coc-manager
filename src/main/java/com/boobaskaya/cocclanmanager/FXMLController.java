@@ -8,12 +8,12 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
+import com.boobaskaya.cocclanmanager.model.ArcherTower;
 import com.boobaskaya.cocclanmanager.model.Building;
 import com.boobaskaya.cocclanmanager.model.BuildingType;
 import com.boobaskaya.cocclanmanager.model.Cannon;
 import com.boobaskaya.cocclanmanager.model.Clan;
 import com.boobaskaya.cocclanmanager.model.Player;
-import com.boobaskaya.cocclanmanager.model.TownHall;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
 import javafx.collections.FXCollections;
@@ -186,21 +186,27 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void addBuilding(ActionEvent event) {
-        switch (cbBuilding.getValue()) {
+	private void addBuilding(ActionEvent event) {
+		Building newBuilding = null;
+		switch (cbBuilding.getValue()) {
+		case ARCHER_TOWER:
+			newBuilding = new ArcherTower();
+			break;
 		case CANNON:
-			cbMember.getValue().addBuilding(new Cannon(cbLevel.getValue()));
-                break;
+			newBuilding = new Cannon();
+			break;
 		case TOWN_HALL:
-			cbMember.getValue().getBuildings().add(new TownHall(cbLevel.getValue()));
-			// never add an TownHall building, TownHall is managed separately in
-			// Player
-			LOGGER.info("TownHall are not added through this method --");
-                break;
-            default:
-                System.err.println("Unhandled building type : " + cbBuilding.getValue());
-        }
-    }
+			// newBuilding = new TownHall();
+			LOGGER.info("Do not add town hall from here");
+			break;
+		default:
+			System.err.println("Unhandled building type : " + cbBuilding.getValue());
+		}
+		if (newBuilding != null) {
+			newBuilding.setLevel(cbLevel.getValue());
+			cbMember.getValue().addBuilding(newBuilding);
+		}
+	}
 
     @FXML
     private void rmBuilding(ActionEvent event) {
