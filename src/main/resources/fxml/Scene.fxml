@@ -43,7 +43,17 @@
                                        <cellValueFactory>
                                           <PropertyValueFactory property="airdps" />
                                        </cellValueFactory>
-                                    </TableColumn>
+                                  </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="goldcost">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="goldcost" />
+                                       </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="elixircost">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="elixircost" />
+                                       </cellValueFactory>
+                                  </TableColumn>
                                 </columns>
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
@@ -94,6 +104,11 @@
                                           <PropertyValueFactory property="dps" />
                                        </cellValueFactory>
                                     </TableColumn>
+                                    <TableColumn prefWidth="75.0" text="cost">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="cost" />
+                                       </cellValueFactory>
+                                  </TableColumn>
                                 </columns>
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">

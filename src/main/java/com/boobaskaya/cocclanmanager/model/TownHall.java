@@ -48,4 +48,9 @@ public class TownHall extends Building{
 	public DPSType getDPSType() {
 		return DPSType.NODPS;
 	}
+
+	@Override
+	public CostType getCostType() {
+		return CostType.GOLD;
+	}
 }

@@ -42,4 +42,9 @@ public class ArcherTower extends Building {
 		return DPSType.AIR_GROUND;
 	}
 
+	@Override
+	public CostType getCostType() {
+		return CostType.GOLD;
+	}
+
 }

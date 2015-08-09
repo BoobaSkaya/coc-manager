@@ -43,6 +43,9 @@ public class Config {
 	public static final String DPS = "damage per second";
 
 	private static final String HITPOINTS = "hitpoints";
+	private static final String COST = "cost";
+	private static final String BUILD_COST = "build cost";
+
 
 	private final String filename;
 
@@ -56,7 +59,7 @@ public class Config {
 
 	private void addLevelDefinition(Map<String, String> levelConfig) {
 		// retrieve the level of the levelConfiguration
-		Integer level = Integer.parseInt((String) levelConfig.get(LEVEL));
+		Integer level = Integer.parseInt(levelConfig.get(LEVEL));
 		levels.put(level, levelConfig);
 	}
 
@@ -77,7 +80,7 @@ public class Config {
 			for (int i = 0; i < headers.length; i++) {
 				headers[i] = headers[i].trim().toLowerCase();
 			}
-			
+
 			// then following lines are level configuration
 			CellProcessor[] cellProcessors = new CellProcessor[headers.length];
 			for (int i = 0; i < cellProcessors.length; i++) {
@@ -133,11 +136,29 @@ public class Config {
 		} else {
 			LOGGER.severe(String.format("Failed to find field %s for config %s.", field, filename));
 		}
-		return -1;
+		return 0;
 	}
 
 	public static String escapeInteger(String badformated){
-		return badformated.replace(",", "");
+		return badformated.replace(",", "").trim();
+	}
+
+	public int getCost(Integer level) {
+		// the cost could be expressed as "cost" or "build cost"
+		Map<String, String> levelMap = levels.get(level);
+		if (levelMap != null) {
+			if (levelMap.containsKey(COST)) {
+				return getInt(level, COST);
+			} else if (levelMap.containsKey(BUILD_COST)) {
+				return getInt(level, BUILD_COST);
+			} else {
+				LOGGER.severe(
+						String.format("Failed to find COST field %s or %s for config %s.", COST, BUILD_COST, filename));
+			}
+		}
+
+		LOGGER.severe(String.format("Failed to find level %d for config %s.", level, filename));
+		return 0;
 	}
 
 }

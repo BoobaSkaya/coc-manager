@@ -13,6 +13,7 @@ import com.boobaskaya.cocclanmanager.model.Building;
 import com.boobaskaya.cocclanmanager.model.BuildingType;
 import com.boobaskaya.cocclanmanager.model.Cannon;
 import com.boobaskaya.cocclanmanager.model.Clan;
+import com.boobaskaya.cocclanmanager.model.GoldMine;
 import com.boobaskaya.cocclanmanager.model.Player;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
@@ -73,7 +74,8 @@ public class FXMLController implements Initializable {
 
         cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
         cbBuilding.setValue(BuildingType.CANNON);
-        cbLevel.setItems(FXCollections.observableArrayList(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}));
+		cbLevel.setItems(
+				FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }));
 
         cbLevel.setValue(1);
 		// buttonCell permit to customize the combox box cell when displayed
@@ -194,6 +196,9 @@ public class FXMLController implements Initializable {
 			break;
 		case CANNON:
 			newBuilding = new Cannon();
+			break;
+		case GOLD_MINE:
+			newBuilding = new GoldMine();
 			break;
 		case TOWN_HALL:
 			// newBuilding = new TownHall();

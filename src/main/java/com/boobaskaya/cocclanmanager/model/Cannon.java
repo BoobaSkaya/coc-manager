@@ -48,4 +48,9 @@ public class Cannon extends Building {
 		return DPSType.GROUND;
 	}
 
+	@Override
+	public CostType getCostType() {
+		return CostType.GOLD;
+	}
+
 }

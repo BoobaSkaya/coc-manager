@@ -32,6 +32,8 @@ public class Player {
 	private final SimpleIntegerProperty dps;
 	private final SimpleIntegerProperty airdps;
 	private final SimpleIntegerProperty hitpoints;
+	private final SimpleIntegerProperty goldCost;
+	private final SimpleIntegerProperty elixirCost;
 
 	public Player() {
 		this("player#" + (INDEX));
@@ -46,6 +48,8 @@ public class Player {
 		this.dps = new SimpleIntegerProperty();
 		this.airdps = new SimpleIntegerProperty();
 		this.hitpoints = new SimpleIntegerProperty();
+		this.goldCost = new SimpleIntegerProperty();
+		this.elixirCost = new SimpleIntegerProperty();
 
 		this.buildings.addListener(new ListChangeListener<Building>() {
 
@@ -67,6 +71,11 @@ public class Player {
 		this.airdps.set(
 				buildings.stream().filter(p -> p.getDPSType() == DPSType.AIR || p.getDPSType() == DPSType.AIR_GROUND)
 						.mapToInt(p -> p.getDPS()).sum());
+		// compute gold and elixir cost
+		this.goldCost
+				.set(buildings.stream().filter(p -> p.getCostType() == CostType.GOLD).mapToInt(p -> p.getCost()).sum());
+		this.elixirCost.set(
+				buildings.stream().filter(p -> p.getCostType() == CostType.ELIXIR).mapToInt(p -> p.getCost()).sum());
 	}
 
 	@XmlAttribute(name = "pseudo")
@@ -147,5 +156,13 @@ public class Player {
 
 	public SimpleIntegerProperty airdpsProperty() {
 		return this.airdps;
+	}
+
+	public SimpleIntegerProperty goldcostProperty() {
+		return this.goldCost;
+	}
+
+	public SimpleIntegerProperty elixircostProperty() {
+		return this.elixirCost;
 	}
 }
