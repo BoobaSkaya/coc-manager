@@ -85,12 +85,12 @@
                               </ToolBar>
                               <TableView fx:id="buildingTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Type">
+                                  <TableColumn prefWidth="125.0" text="Type">
                                         <cellValueFactory>
                                             <PropertyValueFactory property="type" /> 
                                         </cellValueFactory>
                                     </TableColumn>
-                                  <TableColumn prefWidth="75.0" text="Level">
+                                  <TableColumn prefWidth="75.0" fx:id="levelColumn" text="Level">
                                         <cellValueFactory>
                                             <PropertyValueFactory property="level" /> 
                                         </cellValueFactory>

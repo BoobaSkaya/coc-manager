@@ -34,7 +34,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 
@@ -53,6 +55,8 @@ public class FXMLController implements Initializable {
     @FXML
 	private TableColumn<Player, Integer> TownHallColumn;
     @FXML
+	private TableColumn<Building, Integer> levelColumn;
+	@FXML
     private TableView<Building> buildingTable;
     @FXML
     private ComboBox<Player> cbMember;
@@ -76,8 +80,23 @@ public class FXMLController implements Initializable {
                 event.getRowValue().setPseudo(event.getNewValue());
             }
         });
+		//////////////
         // Member page
+		//////////////
 		buildingTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		buildingTable.setEditable(true);
+		levelColumn.setEditable(true);
+		levelColumn.setCellFactory(ComboBoxTableCell
+				.<Building, Integer> forTableColumn(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }));
+		levelColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Building, Integer>>() {
+
+			@Override
+			public void handle(CellEditEvent<Building, Integer> event) {
+				LOGGER.info("CellEdit: New level for building " + event.getRowValue() + " : " + event.getNewValue());
+				event.getRowValue().setLevel(event.getNewValue());
+
+			}
+		});
 
         cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
         cbBuilding.setValue(BuildingType.CANNON);
