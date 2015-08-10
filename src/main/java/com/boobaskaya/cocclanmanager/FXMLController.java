@@ -2,6 +2,7 @@ package com.boobaskaya.cocclanmanager;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -147,7 +148,9 @@ public class FXMLController implements Initializable {
     @FXML
     private void rmMember(ActionEvent event) {
         //retrieve the index of the item to remove
-        memberTable.getSelectionModel().getSelectedItems().stream().forEach((p) -> {
+    	ArrayList<Player> toBeRemoved = new ArrayList<>();
+    	toBeRemoved.addAll(memberTable.getSelectionModel().getSelectedItems());
+		toBeRemoved.stream().forEach((p) -> {
             clan.getMembers().remove(p);
         });
     }
@@ -242,7 +245,9 @@ public class FXMLController implements Initializable {
 		// get the selected Player
 		Player player = cbMember.getValue();
 		// get the selected buildings
-		buildingTable.getSelectionModel().getSelectedItems().stream().forEach(p -> player.getBuildings().remove(p));
+		ArrayList<Building> toBeRemoved = new ArrayList<>();
+		toBeRemoved.addAll(buildingTable.getSelectionModel().getSelectedItems());
+		toBeRemoved.stream().forEach(p -> player.getBuildings().remove(p));
 
     }
 }
