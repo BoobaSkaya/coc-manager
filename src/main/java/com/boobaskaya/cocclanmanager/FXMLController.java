@@ -145,6 +145,18 @@ public class FXMLController implements Initializable {
         clan.getMembers().add(new Player());
     }
 
+	@FXML
+	private void cloneMember(ActionEvent event) {
+		// Clone the selected member
+		Player selectedPlayer = memberTable.getSelectionModel().getSelectedItem();
+		if (selectedPlayer != null) {
+			Player clonedPlayer = selectedPlayer.clone();
+			clonedPlayer.setPseudo(clonedPlayer.getPseudo() + "_clone");
+			clan.getMembers().add(clonedPlayer);
+		}
+
+	}
+
     @FXML
     private void rmMember(ActionEvent event) {
         //retrieve the index of the item to remove

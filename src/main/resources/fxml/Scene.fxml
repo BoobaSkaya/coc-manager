@@ -58,8 +58,9 @@
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                    <Button mnemonicParsing="false" onAction="#addMember" text="Add" />
-                                    <Button mnemonicParsing="false" onAction="#rmMember" text="Rm" />
+                                    <Button mnemonicParsing="false" onAction="#addMember" 	text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#cloneMember" text="Clone" />
+                                    <Button mnemonicParsing="false" onAction="#rmMember" 	text="Rm" />
                                 </items>
                               </ToolBar>
                            </children>

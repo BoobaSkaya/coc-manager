@@ -15,7 +15,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 @XmlRootElement
-public class Player {
+public class Player implements Cloneable {
 
 	private static int INDEX = 0;
 
@@ -29,6 +29,7 @@ public class Player {
 	@XmlElement(name = "building")
 	private final ObservableList<Building> buildings;
 
+	// derived values
 	private final SimpleIntegerProperty dps;
 	private final SimpleIntegerProperty airdps;
 	private final SimpleIntegerProperty hitpoints;
@@ -133,7 +134,10 @@ public class Player {
 		if (!Objects.equals(this.pseudo.getValue(), other.pseudo.getValue())) {
 			return false;
 		}
-		return Objects.equals(this.townHall.getValue(), other.townHall.getValue());
+		if (!Objects.equals(this.townHall.getValue(), other.townHall.getValue())) {
+			return false;
+		}
+		return Objects.deepEquals(this.buildings, other.buildings);
 	}
 
 	@Override
@@ -164,5 +168,15 @@ public class Player {
 
 	public SimpleIntegerProperty elixircostProperty() {
 		return this.elixirCost;
+	}
+
+	@Override
+	public Player clone() {
+		Player clone = new Player();
+		clone.setPseudo(this.getPseudo());
+		clone.setTownHall(this.getTownHall());
+		getBuildings().stream().forEach(p -> clone.addBuilding(p.clone()));
+
+		return clone;
 	}
 }

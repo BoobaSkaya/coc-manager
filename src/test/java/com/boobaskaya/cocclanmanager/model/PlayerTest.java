@@ -22,7 +22,15 @@ public class PlayerTest {
 
     @Test
     public void testSerialization() throws IOException, JAXBException{
-        Player p1 = new Player();
+		Player p1 = getTestPlayer();
+		JAXBTools.toFile(p1, Player.class, testOutputFile);
+		Player o = JAXBTools.fromFile(testOutputFile, Player.class);
+		Assert.assertTrue(o instanceof Player);
+		Assert.assertEquals(p1, o);
+	}
+
+	private Player getTestPlayer() {
+		Player p1 = new Player();
         p1.setPseudo("lena");
         p1.setTownHall(10);
 		p1.addBuilding(new Cannon(10));
@@ -35,9 +43,25 @@ public class PlayerTest {
 		p1.addBuilding(new HiddenTesla(8));
 		p1.addBuilding(new XBow(2));
 		p1.addBuilding(new InfernoTower(3));
-        JAXBTools.toFile(p1, Player.class, testOutputFile);
-        Player o  = JAXBTools.fromFile(testOutputFile, Player.class);
-        Assert.assertTrue(o instanceof Player);
-        Assert.assertEquals(p1, o);
+		return p1;
+	}
+
+	@Test
+	public void testClone() {
+		Player p1 = getTestPlayer();
+		Player clone = p1.clone();
+
+		Assert.assertEquals(clone, p1);
+		p1.addBuilding(new Cannon(1));
+		Assert.assertNotSame(p1, clone);
+
+		clone = p1.clone();
+		p1.setPseudo("notthesame");
+		Assert.assertNotSame(p1, clone);
+
+		clone = p1.clone();
+		p1.setTownHall(10);
+		Assert.assertNotSame(p1, clone);
+
     }
 }

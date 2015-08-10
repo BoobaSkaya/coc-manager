@@ -12,8 +12,9 @@ import javafx.beans.property.SimpleStringProperty;
 		Mortar.class,
 		TownHall.class,
  WizardTower.class, XBow.class })
-public abstract class Building  {
+public abstract class Building implements Cloneable {
     private SimpleIntegerProperty level;
+	// derived values
 	private SimpleIntegerProperty hitpoints;
 	private SimpleIntegerProperty dps;
 	private SimpleIntegerProperty cost;
@@ -81,8 +82,50 @@ public abstract class Building  {
 		return totalCost;
 	}
 
+	@Override
+	public Building clone() {
+		Building clone = null;
+		try {
+			clone = (Building) super.clone();
+			clone.setLevel(getLevel());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return clone;
+	}
+
 	public abstract DPSType getDPSType();
 
 	public abstract CostType getCostType();
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((level.getValue() == null) ? 0 : level.getValue().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Building other = (Building) obj;
+		if (level == null) {
+			if (other.level != null) {
+				return false;
+			}
+		} else if (!level.getValue().equals(other.level.getValue())) {
+			return false;
+		}
+		return true;
+	}
 
 }
