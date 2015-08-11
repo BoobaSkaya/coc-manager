@@ -134,6 +134,9 @@
                      <children>
                         <PieChart fx:id="thPieChart" title="TH pie chart" />
                      </children>
+                     <children>
+                        <PieChart fx:id="buildingsPieChart" title="Buildings pie chart" />
+                     </children>
                   </VBox>
                </content>
             </Tab>

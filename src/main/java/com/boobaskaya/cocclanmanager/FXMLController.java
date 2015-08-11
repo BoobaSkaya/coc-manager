@@ -75,6 +75,10 @@ public class FXMLController implements Initializable {
 	private PieChart thPieChart;
 
 	private ObservableList<Data> thPieChartData;
+	@FXML
+	private PieChart buildingsPieChart;
+
+	private ObservableList<Data> buildingsPieChartData;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -144,6 +148,9 @@ public class FXMLController implements Initializable {
 		// Stats
 		thPieChartData = FXCollections.observableArrayList();
 		thPieChart.setData(thPieChartData);
+
+		buildingsPieChartData = FXCollections.observableArrayList();
+		buildingsPieChart.setData(buildingsPieChartData);
 		// load and set initial datas
 		reloadFile();
     }
@@ -187,6 +194,21 @@ public class FXMLController implements Initializable {
 				thPieChartData.add(newData);
 			}
 		}
+		// Compute buildings stats
+		final int[] buildingsNumber = new int[BuildingType.values().length];
+		Arrays.fill(buildingsNumber, 0);
+		// parse player and count the building type
+		clan.getMembers().stream()
+				.forEach(p -> p.getBuildings().stream().forEach(b -> buildingsNumber[b.getType().ordinal()]++));
+
+		buildingsPieChartData.clear();
+		for (int i = 0; i < buildingsNumber.length; i++) {
+			if (buildingsNumber[i] > 0) {
+				Data newData = new Data(BuildingType.values()[i].toString(), buildingsNumber[i]);
+				buildingsPieChartData.add(newData);
+			}
+		}
+
 
 	}
 
@@ -302,6 +324,7 @@ public class FXMLController implements Initializable {
 		if (newBuilding != null) {
 			newBuilding.setLevel(cbLevel.getValue());
 			cbMember.getValue().addBuilding(newBuilding);
+			updateStats();
 		}
 	}
 
@@ -313,6 +336,6 @@ public class FXMLController implements Initializable {
 		ArrayList<Building> toBeRemoved = new ArrayList<>();
 		toBeRemoved.addAll(buildingTable.getSelectionModel().getSelectedItems());
 		toBeRemoved.stream().forEach(p -> player.getBuildings().remove(p));
-
+		updateStats();
     }
 }
