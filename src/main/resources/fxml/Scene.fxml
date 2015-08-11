@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -58,9 +59,9 @@
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                    <Button mnemonicParsing="false" onAction="#addMember" 	text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#addMember" text="Add" />
                                     <Button mnemonicParsing="false" onAction="#cloneMember" text="Clone" />
-                                    <Button mnemonicParsing="false" onAction="#rmMember" 	text="Rm" />
+                                    <Button mnemonicParsing="false" onAction="#rmMember" text="Rm" />
                                 </items>
                               </ToolBar>
                            </children>
@@ -90,7 +91,7 @@
                                             <PropertyValueFactory property="type" /> 
                                         </cellValueFactory>
                                     </TableColumn>
-                                  <TableColumn prefWidth="75.0" fx:id="levelColumn" text="Level">
+                                  <TableColumn fx:id="levelColumn" prefWidth="75.0" text="Level">
                                         <cellValueFactory>
                                             <PropertyValueFactory property="level" /> 
                                         </cellValueFactory>
@@ -127,6 +128,15 @@
                      </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="Stats">
+               <content>
+                  <VBox>
+                     <children>
+                        <PieChart fx:id="thPieChart" title="TH pie chart" />
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>

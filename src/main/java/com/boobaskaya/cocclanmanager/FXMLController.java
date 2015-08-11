@@ -3,6 +3,7 @@ package com.boobaskaya.cocclanmanager;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,15 +21,19 @@ import com.boobaskaya.cocclanmanager.model.HiddenTesla;
 import com.boobaskaya.cocclanmanager.model.InfernoTower;
 import com.boobaskaya.cocclanmanager.model.Mortar;
 import com.boobaskaya.cocclanmanager.model.Player;
+import com.boobaskaya.cocclanmanager.model.TownHall;
 import com.boobaskaya.cocclanmanager.model.WizardTower;
 import com.boobaskaya.cocclanmanager.model.XBow;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -66,6 +71,10 @@ public class FXMLController implements Initializable {
     private ComboBox<BuildingType> cbBuilding;
     @FXML
     private ComboBox<Integer> cbLevel;
+	@FXML
+	private PieChart thPieChart;
+
+	private ObservableList<Data> thPieChartData;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -132,10 +141,11 @@ public class FXMLController implements Initializable {
 		});
 		cbTownHall.setItems(FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
 
-        //
-        setClan(new Clan());
-
-        reloadFile();
+		// Stats
+		thPieChartData = FXCollections.observableArrayList();
+		thPieChart.setData(thPieChartData);
+		// load and set initial datas
+		reloadFile();
     }
 
     private void reloadFile() {
@@ -145,6 +155,9 @@ public class FXMLController implements Initializable {
             } catch (JAXBException ex) {
                 Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
+		} else {
+			// no file, create default clan
+			setClan(new Clan());
         }
     }
 
@@ -157,11 +170,30 @@ public class FXMLController implements Initializable {
             cbMember.setValue(clan.getMembers().get(0));
             this.cbMemberAction(null);
         }
+		updateStats();
     }
 
-    @FXML
+	private void updateStats() {
+		// Compute TH stats
+		final int[] thNumber = new int[new TownHall().getMaxLevel(null)];
+		Arrays.fill(thNumber, 0);
+		// parse player and count th levels
+		clan.getMembers().stream().forEach(p -> thNumber[p.getTownHall()]++);
+
+		thPieChartData.clear();
+		for (int i = 0; i < thNumber.length; i++) {
+			if (thNumber[i] > 0) {
+				Data newData = new Data("TH" + i, thNumber[i]);
+				thPieChartData.add(newData);
+			}
+		}
+
+	}
+
+	@FXML
     private void addMember(ActionEvent event) {
         clan.getMembers().add(new Player());
+		updateStats();
     }
 
 	@FXML
@@ -173,7 +205,7 @@ public class FXMLController implements Initializable {
 			clonedPlayer.setPseudo(clonedPlayer.getPseudo() + "_clone");
 			clan.getMembers().add(clonedPlayer);
 		}
-
+		updateStats();
 	}
 
     @FXML
@@ -184,6 +216,7 @@ public class FXMLController implements Initializable {
 		toBeRemoved.stream().forEach((p) -> {
             clan.getMembers().remove(p);
         });
+		updateStats();
     }
 
     @FXML
@@ -214,6 +247,7 @@ public class FXMLController implements Initializable {
 	private void cbTownHallAction(ActionEvent event) {
 		LOGGER.info("cbHdv action to " + cbTownHall.getValue());
 		cbMember.getValue().setTownHall(cbTownHall.getValue());
+		updateStats();
     }
 
     @FXML
