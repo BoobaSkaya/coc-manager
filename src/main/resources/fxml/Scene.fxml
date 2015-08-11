@@ -59,9 +59,9 @@
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                    <Button mnemonicParsing="false" onAction="#addMember" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#addMember" styleClass="add" text="Add" />
                                     <Button mnemonicParsing="false" onAction="#cloneMember" text="Clone" />
-                                    <Button mnemonicParsing="false" onAction="#rmMember" text="Rm" />
+                                    <Button mnemonicParsing="false" onAction="#rmMember" styleClass="del" text="Rm" />
                                 </items>
                               </ToolBar>
                            </children>
@@ -119,8 +119,8 @@
                                     <ComboBox fx:id="cbBuilding" onAction="#cbBuildingAction" prefWidth="150.0" />
                                     <Label text="level" />
                                     <ComboBox fx:id="cbLevel" onAction="#cbLevelAction" prefWidth="150.0" />
-                                    <Button mnemonicParsing="false" onAction="#addBuilding" text="+" />
-                                    <Button mnemonicParsing="false" onAction="#rmBuilding" text="-" />
+                                    <Button mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="+" />
+                                    <Button mnemonicParsing="false" onAction="#rmBuilding" styleClass="del" text="-" />
                                  </items>
                               </ToolBar>
                            </children>
@@ -144,11 +144,22 @@
       </TabPane>
    </center>
    <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button mnemonicParsing="false" onAction="#load" text="(Re)Load" />
-            <Button mnemonicParsing="false" onAction="#save" text="Save" />
-        </items>
-      </ToolBar>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              	  <MenuItem mnemonicParsing="false" onAction="#openAction" text="Open" />
+              	  <MenuItem mnemonicParsing="false" onAction="#saveAction" text="Save" />
+                  <MenuItem fx:id="saveAsAction" mnemonicParsing="false" onAction="#saveAsAction" text="Save as..." />
+                  <MenuItem fx:id="quitAction" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </top>
 </BorderPane>
