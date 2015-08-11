@@ -43,17 +43,22 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class FXMLController implements Initializable {
 
 	private static final Logger LOGGER = Logger.getLogger("COC");
 
-    private static final File clanFile = new File("clan.xml");
+	private static File clanFile = new File("clan.xml");
 
     private Clan clan;
 
     @FXML
+	private BorderPane mainBorderPane;
+	@FXML
     private TableView<Player> memberTable;
     @FXML
     private TableColumn<Player, String> pseudoColumn;
@@ -79,6 +84,8 @@ public class FXMLController implements Initializable {
 	private PieChart buildingsPieChart;
 
 	private ObservableList<Data> buildingsPieChartData;
+
+	private Stage stage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -208,8 +215,6 @@ public class FXMLController implements Initializable {
 				buildingsPieChartData.add(newData);
 			}
 		}
-
-
 	}
 
 	@FXML
@@ -242,18 +247,52 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void load(ActionEvent event) {
-        reloadFile();
+	private void openAction(ActionEvent event) {
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Open clan file");
+		fc.setInitialDirectory(clanFile.getParentFile());
+		File f = fc.showOpenDialog(stage);
+		if (f != null) {
+			clanFile = f;
+			updateWindowTitle();
+			reloadFile();
+		}
     }
 
     @FXML
-    private void save(ActionEvent event) {
-        try {
-            JAXBTools.toFile(this.clan, Clan.class, clanFile);
-        } catch (JAXBException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void saveAction(ActionEvent event) {
+        save();
     }
+
+	@FXML
+	private void saveAsAction(ActionEvent event) {
+		// ask file to save to
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Save clan to file");
+		fc.setInitialDirectory(clanFile.getParentFile());
+		File f = fc.showSaveDialog(stage);
+		if (f != null) {
+			clanFile = f;
+			updateWindowTitle();
+			save();
+		}
+	}
+
+	private void save() {
+		try {
+			LOGGER.info("Save clan to " + clanFile.getAbsolutePath());
+			JAXBTools.toFile(this.clan, Clan.class, clanFile);
+		} catch (JAXBException ex) {
+			Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	@FXML
+	private void quitAction(ActionEvent event) {
+		// close ALL !!
+		LOGGER.info("Quit action");
+		System.exit(0);
+	}
 
     @FXML
     private void cbMemberAction(ActionEvent event) {
@@ -338,4 +377,15 @@ public class FXMLController implements Initializable {
 		toBeRemoved.stream().forEach(p -> player.getBuildings().remove(p));
 		updateStats();
     }
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+		updateWindowTitle();
+	}
+
+	private void updateWindowTitle() {
+		if (clanFile != null && stage != null) {
+			stage.setTitle(clanFile.getName());
+		}
+	}
 }

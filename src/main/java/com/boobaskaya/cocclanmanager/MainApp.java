@@ -11,15 +11,18 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
-//            
-        Parent root = loader.load();
 
-        
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+//
+        Parent root = loader.load();
+		FXMLController controller = (FXMLController) loader.getController();
+
+		controller.setStage(stage); // or what you want to do
+
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
-        
+
         stage.setTitle("CoCClanManager");
         stage.setScene(scene);
         stage.show();
