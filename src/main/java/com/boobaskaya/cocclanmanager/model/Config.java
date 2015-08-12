@@ -45,6 +45,7 @@ public class Config {
 	private static final String HITPOINTS = "hitpoints";
 	private static final String COST = "cost";
 	private static final String BUILD_COST = "build cost";
+	private static final String TH_LEVEL_REQUIRED = "town hall level required";
 
 
 	private final String filename;
@@ -159,6 +160,29 @@ public class Config {
 
 		LOGGER.severe(String.format("Failed to find level %d for config %s.", level, filename));
 		return 0;
+	}
+
+	/**
+	 * returns The maximum level of this config for the given town hall level
+	 * This method can be cashed at config reading
+	 *
+	 * @param thLevel
+	 * @return
+	 */
+	public int getMaxLevel(int thLevel) {
+		// TODO cache this computing at config read instead of computing it each
+		// time
+		int result = 0;
+		for (int level : levels.keySet()) {
+			String thRequiredLevel = levels.get(level).get(TH_LEVEL_REQUIRED);
+			if (thRequiredLevel != null) {
+				int thRequired = Integer.parseInt(thRequiredLevel);
+				if (thRequired <= thLevel && result < level) {
+					result = level;
+				}
+			}
+		}
+		return result;
 	}
 
 }

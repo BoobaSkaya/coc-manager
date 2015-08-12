@@ -22,11 +22,6 @@ public class GoldMine extends Building{
 
 	private static Config config;
 
-	@Override
-    public int getMaxLevel(TownHall hdv) {
-        return 12;
-    }
-
     @Override
     public BuildingType getType() {
         return BuildingType.GOLD_MINE;

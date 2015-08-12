@@ -62,7 +62,9 @@ public abstract class Building implements Cloneable {
 
     public abstract BuildingType getType();
 
-    public abstract int getMaxLevel(TownHall hdv);
+	public int getMaxLevel(TownHall th) {
+		return getConfig().getMaxLevel(th.getLevel());
+	}
 
 	public abstract Config getConfig();
 

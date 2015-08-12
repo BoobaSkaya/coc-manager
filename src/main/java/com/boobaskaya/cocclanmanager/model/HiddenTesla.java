@@ -20,12 +20,6 @@ public class HiddenTesla extends Building {
 	}
 
 	@Override
-	public int getMaxLevel(TownHall hdv) {
-		// TBD
-		return 0;
-	}
-
-	@Override
 	public Config getConfig() {
 		if (config == null) {
 			try {

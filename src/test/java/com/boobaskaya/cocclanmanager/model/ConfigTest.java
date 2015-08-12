@@ -55,4 +55,20 @@ public class ConfigTest {
 		}
 	}
 
+	@Test
+	public void testGetMaxLevel() throws ParseException {
+		Config c = Config.parse("cannon-levels.csv");
+		Assert.assertEquals(2, c.getMaxLevel(1));
+		Assert.assertEquals(3, c.getMaxLevel(2));
+		Assert.assertEquals(4, c.getMaxLevel(3));
+		Assert.assertEquals(5, c.getMaxLevel(4));
+		Assert.assertEquals(6, c.getMaxLevel(5));
+		Assert.assertEquals(7, c.getMaxLevel(6));
+		Assert.assertEquals(8, c.getMaxLevel(7));
+		Assert.assertEquals(10, c.getMaxLevel(8));
+		Assert.assertEquals(11, c.getMaxLevel(9));
+		Assert.assertEquals(11, c.getMaxLevel(9));
+		Assert.assertEquals(13, c.getMaxLevel(10));
+	}
+
 }
