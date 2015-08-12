@@ -1,6 +1,7 @@
 package com.boobaskaya.cocclanmanager;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
@@ -377,6 +381,28 @@ public class FXMLController implements Initializable {
 		toBeRemoved.stream().forEach(p -> player.getBuildings().remove(p));
 		updateStats();
     }
+
+	@FXML
+	private void aboutAction(ActionEvent event) {
+		// show about dialog
+		String resource = "/fxml/aboutDialog.fxml";
+		try {
+			// create a new stage for the new dialog
+			Stage stage2 = new Stage();
+			// load the new dialog
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
+			Parent page = loader.load();
+			AboutDialogController controller = loader.getController();
+			controller.setStage(stage2);
+
+			Scene scene = new Scene(page);
+			stage2.setScene(scene);
+			stage2.showAndWait();
+		} catch (IOException e) {
+			LOGGER.severe("Failed to load resource " + resource);
+			e.printStackTrace();
+		}
+	}
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
