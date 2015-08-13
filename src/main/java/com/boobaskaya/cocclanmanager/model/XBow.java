@@ -1,10 +1,6 @@
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class XBow extends Building {
-
-	private static Config config;
 
 	public XBow() {
 		super();
@@ -20,15 +16,8 @@ public class XBow extends Building {
 	}
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("x_bow-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "x_bow";
 	}
 
 	@Override

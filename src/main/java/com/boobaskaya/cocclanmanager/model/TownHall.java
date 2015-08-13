@@ -40,8 +40,8 @@ public class TownHall extends Building{
     }
 
 	@Override
-	public Config getConfig() {
-		return Config.defaultConfig();
+	public String getConfigBasename() {
+		return "town_hall";
 	}
 
 	@Override

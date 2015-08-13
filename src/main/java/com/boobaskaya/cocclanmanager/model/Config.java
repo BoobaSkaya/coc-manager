@@ -20,13 +20,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.supercsv.cellprocessor.Trim;
 import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvMapReader;
 import org.supercsv.prefs.CsvPreference;
 
@@ -37,6 +40,7 @@ public class Config {
 	private static Config defaultConfig = null;
 
 	private final HashMap<Integer, Map<String, String>> levels = new HashMap<>();
+	private int[] numberPerTHLevel;
 
 	public static final String LEVEL = "level";
 
@@ -64,12 +68,47 @@ public class Config {
 		levels.put(level, levelConfig);
 	}
 
-	public static Config parse(String filename) throws ParseException {
-		Config result = new Config(filename);
+	public static Config parse(String basename) throws ParseException {
+		Config result = new Config(basename);
+		// first is to retrieve the -levels.csv config filename
+		result.loadLevels();
+		result.loadNumbersOfBuildingPerTHLevel();
+		return result;
+	}
+
+	private void loadNumbersOfBuildingPerTHLevel() throws ParseException {
+		String numbersFilename = filename + "-number.csv";
 		// Retrieve input stream
-		InputStream is = Config.class.getResourceAsStream("config/" + filename);
+		InputStream is = Config.class.getResourceAsStream("config/" + numbersFilename);
 		if (is == null) {
-			throw new ParseException(String.format("Failed to find file %s", filename), 0);
+			throw new ParseException(String.format("Failed to find file %s", numbersFilename), 0);
+		}
+
+		try {
+			CsvListReader reader = new CsvListReader(new InputStreamReader(is),
+					CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+			// first line is TH levels - skip it
+			reader.read();
+			List<String> numbers = reader.read();
+			numberPerTHLevel = new int[numbers.size()];
+			Arrays.fill(numberPerTHLevel, 0);
+			for(int i = 1; i < numbers.size(); i++){
+				String numberString = numbers.get(i).trim();
+				numberPerTHLevel[i] = Integer.parseInt(numberString);
+			}
+			reader.close();
+		} catch (IOException | IllegalArgumentException e) {
+			throw new ParseException("Error while reading " + numbersFilename + " :" + e.getMessage(), 0);
+		}
+
+	}
+
+	private void loadLevels() throws ParseException {
+		String levelFilename = filename + "-levels.csv";
+		// Retrieve input stream
+		InputStream is = Config.class.getResourceAsStream("config/" + levelFilename);
+		if (is == null) {
+			throw new ParseException(String.format("Failed to find file %s", levelFilename), 0);
 		}
 
 		try {
@@ -89,14 +128,13 @@ public class Config {
 			}
 			Map<String, String> row = reader.read(headers);
 			while (row != null) {
-				result.addLevelDefinition(row);
+				addLevelDefinition(row);
 				row = reader.read(headers);
 			}
 			reader.close();
 		} catch (IOException | IllegalArgumentException e) {
-			throw new ParseException("Error while reading " + filename + " :" + e.getMessage(), 0);
+			throw new ParseException("Error while reading " + levelFilename + " :" + e.getMessage(), 0);
 		}
-		return result;
 	}
 
 
@@ -131,11 +169,18 @@ public class Config {
 	private int getInt(int level, String field) {
 		if (levels.get(level) != null && levels.get(level).get(field) != null) {
 			String inputValue = levels.get(level).get(field);
-			return Integer.parseInt(escapeInteger(inputValue));
+			try{
+				return Integer.parseInt(escapeInteger(inputValue));
+			}catch(NumberFormatException e){
+				LOGGER.severe(String.format("Field %s for config %s is not a number, use 0.", field, filename));
+				throw e;
+			}
 		} else if (levels.get(level) == null) {
-			LOGGER.severe(String.format("Failed to find level %d for config %s.", level, filename));
+			String msg = String.format("Failed to find level %d for config %s.", level, filename);
+			LOGGER.severe(msg);
+			throw new IllegalArgumentException(msg);
 		} else {
-			LOGGER.severe(String.format("Failed to find field %s for config %s.", field, filename));
+			LOGGER.warning(String.format("Failed to find field %s for config %s.", field, filename));
 		}
 		return 0;
 	}
@@ -183,6 +228,13 @@ public class Config {
 			}
 		}
 		return result;
+	}
+
+	public int getMaxNumberPerTHLevel(int thLevel){
+		if(thLevel < 0 || thLevel >= numberPerTHLevel.length){
+			throw new IllegalArgumentException("Town Hall level must be positive int lower than "+numberPerTHLevel.length+" for "+filename);
+		}
+		return numberPerTHLevel[thLevel];
 	}
 
 }

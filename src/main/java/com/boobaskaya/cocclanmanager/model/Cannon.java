@@ -1,11 +1,7 @@
 
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class Cannon extends Building {
-
-	private static Config config = null;
 
     public Cannon(){
         super();
@@ -21,15 +17,8 @@ public class Cannon extends Building {
     }
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("cannon-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "cannon";
 	}
 
 	@Override

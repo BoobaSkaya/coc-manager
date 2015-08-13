@@ -1,6 +1,6 @@
 Level ;Hitpoints ;Build Cost  ;Build Time ;Experience Gained  ;"Maximum Number
 of Buildings Available† "
-1;1,500;N/A ;N/A ;0;14
+1;1,500;0;0;0;14
 2;1,600;1,000;10 seconds ;3;18
 3;1,850;4,000;3 hours ;103;26
 4;2,100;25,000;1 day ;293;31

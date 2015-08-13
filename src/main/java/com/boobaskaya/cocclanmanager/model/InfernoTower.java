@@ -1,10 +1,6 @@
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class InfernoTower extends Building {
-
-	private static Config config;
 
 	public InfernoTower() {
 		super();
@@ -20,15 +16,8 @@ public class InfernoTower extends Building {
 	}
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("inferno_tower-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "inferno_tower";
 	}
 
 	@Override
@@ -40,5 +29,4 @@ public class InfernoTower extends Building {
 	public CostType getCostType() {
 		return CostType.GOLD;
 	}
-
 }

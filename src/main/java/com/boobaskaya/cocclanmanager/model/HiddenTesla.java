@@ -1,10 +1,6 @@
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class HiddenTesla extends Building {
-
-	private static Config config;
 
 	public HiddenTesla() {
 		super();
@@ -20,15 +16,8 @@ public class HiddenTesla extends Building {
 	}
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("hidden_tesla-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "hidden_tesla";
 	}
 
 	@Override

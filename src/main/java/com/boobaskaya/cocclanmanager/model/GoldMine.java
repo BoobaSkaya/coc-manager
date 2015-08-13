@@ -16,11 +16,7 @@
  */
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class GoldMine extends Building{
-
-	private static Config config;
 
     @Override
     public BuildingType getType() {
@@ -28,15 +24,8 @@ public class GoldMine extends Building{
     }
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("gold_mine-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "gold_mine";
 	}
 
 	@Override

@@ -1,6 +1,10 @@
 
 package com.boobaskaya.cocclanmanager.model;
 
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.logging.Logger;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
@@ -13,11 +17,16 @@ import javafx.beans.property.SimpleStringProperty;
 		TownHall.class,
  WizardTower.class, XBow.class })
 public abstract class Building implements Cloneable {
+	private static final Logger LOGGER = Logger.getLogger("COC");
+
     private SimpleIntegerProperty level;
 	// derived values
 	private SimpleIntegerProperty hitpoints;
 	private SimpleIntegerProperty dps;
 	private SimpleIntegerProperty cost;
+
+	private final static HashMap<BuildingType, Config> configs = new HashMap<>();
+
     public Building(){
         this(1);
     }
@@ -66,7 +75,20 @@ public abstract class Building implements Cloneable {
 		return getConfig().getMaxLevel(th.getLevel());
 	}
 
-	public abstract Config getConfig();
+	public abstract String getConfigBasename();
+
+	public Config getConfig() {
+		if (configs.get(getType()) == null) {
+			// load new config
+			try {
+				configs.put(getType(), Config.parse(getConfigBasename()));
+			} catch (ParseException e) {
+				LOGGER.severe("Failed to load config with basename " + getConfigBasename());
+			}
+		}
+		return configs.get(getType());
+
+	}
 
 	public int getDPS() {
 		return getConfig().getDPS(level.getValue());

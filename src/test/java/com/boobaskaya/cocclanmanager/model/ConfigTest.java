@@ -24,9 +24,18 @@ import junit.framework.Assert;
 
 public class ConfigTest {
 
-	private final String[] CONFIG_FILES = new String[] { "archer_tower-levels.csv", "gold_mine-levels.csv",
-			"cannon-levels.csv",
-			"town_hall-levels.csv", "default-levels.csv" };
+	private final String[] CONFIG_FILES = new String[] {
+			"archer_tower"
+			,"cannon"
+			,"default"
+			, "gold_mine"
+			, "hidden_tesla"
+			, "inferno_tower"
+			, "mortar"
+			, "town_hall"
+			, "wizard_tower"
+			, "x_bow"
+			};
 
     public ConfigTest() {
     }
@@ -34,7 +43,7 @@ public class ConfigTest {
     @Test
     public void testCannonConfig() throws ParseException {
         //parse cannon config
-		Config c = Config.parse("cannon-levels.csv");
+		Config c = Config.parse("cannon");
 
 		Assert.assertEquals(13, c.getLevelNumber());
 		Assert.assertEquals("9", c.getLevel(1).get(Config.DPS));
@@ -57,7 +66,7 @@ public class ConfigTest {
 
 	@Test
 	public void testGetMaxLevel() throws ParseException {
-		Config c = Config.parse("cannon-levels.csv");
+		Config c = Config.parse("cannon");
 		Assert.assertEquals(2, c.getMaxLevel(1));
 		Assert.assertEquals(3, c.getMaxLevel(2));
 		Assert.assertEquals(4, c.getMaxLevel(3));
@@ -69,6 +78,22 @@ public class ConfigTest {
 		Assert.assertEquals(11, c.getMaxLevel(9));
 		Assert.assertEquals(11, c.getMaxLevel(9));
 		Assert.assertEquals(13, c.getMaxLevel(10));
+	}
+
+	@Test
+	public void testGetMaxNumberPerTHLevel() throws ParseException {
+		Config c = Config.parse("gold_mine");
+		Assert.assertEquals(1, c.getMaxNumberPerTHLevel(1));
+		Assert.assertEquals(2, c.getMaxNumberPerTHLevel(2));
+		Assert.assertEquals(3, c.getMaxNumberPerTHLevel(3));
+		Assert.assertEquals(4, c.getMaxNumberPerTHLevel(4));
+		Assert.assertEquals(5, c.getMaxNumberPerTHLevel(5));
+		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(6));
+		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(7));
+		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(8));
+		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(9));
+		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(9));
+		Assert.assertEquals(7, c.getMaxNumberPerTHLevel(10));
 	}
 
 }

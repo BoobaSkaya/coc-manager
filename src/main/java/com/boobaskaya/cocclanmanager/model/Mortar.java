@@ -1,10 +1,6 @@
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class Mortar extends Building {
-
-	private static Config config;
 
 	public Mortar() {
 		super();
@@ -20,15 +16,8 @@ public class Mortar extends Building {
 	}
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("mortar-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "air_defense";
 	}
 
 	@Override

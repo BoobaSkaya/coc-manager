@@ -1,10 +1,6 @@
 package com.boobaskaya.cocclanmanager.model;
 
-import java.text.ParseException;
-
 public class ArcherTower extends Building {
-
-	private static Config config;
 
 	public ArcherTower() {
 		super();
@@ -20,15 +16,8 @@ public class ArcherTower extends Building {
 	}
 
 	@Override
-	public Config getConfig() {
-		if (config == null) {
-			try {
-				config = Config.parse("archer_tower-levels.csv");
-			} catch (ParseException e) {
-				config = Config.defaultConfig();
-			}
-		}
-		return config;
+	public String getConfigBasename() {
+		return "archer_tower";
 	}
 
 	@Override
