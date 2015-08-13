@@ -17,7 +17,7 @@ public class Mortar extends Building {
 
 	@Override
 	public String getConfigBasename() {
-		return "air_defense";
+		return "mortar";
 	}
 
 	@Override

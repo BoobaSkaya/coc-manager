@@ -11,20 +11,12 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
-import com.boobaskaya.cocclanmanager.model.AirDefense;
-import com.boobaskaya.cocclanmanager.model.ArcherTower;
 import com.boobaskaya.cocclanmanager.model.Building;
+import com.boobaskaya.cocclanmanager.model.BuildingFactory;
 import com.boobaskaya.cocclanmanager.model.BuildingType;
-import com.boobaskaya.cocclanmanager.model.Cannon;
 import com.boobaskaya.cocclanmanager.model.Clan;
-import com.boobaskaya.cocclanmanager.model.GoldMine;
-import com.boobaskaya.cocclanmanager.model.HiddenTesla;
-import com.boobaskaya.cocclanmanager.model.InfernoTower;
-import com.boobaskaya.cocclanmanager.model.Mortar;
 import com.boobaskaya.cocclanmanager.model.Player;
 import com.boobaskaya.cocclanmanager.model.TownHall;
-import com.boobaskaya.cocclanmanager.model.WizardTower;
-import com.boobaskaya.cocclanmanager.model.XBow;
 import com.boobaskaya.cocclanmanager.tools.JAXBTools;
 
 import javafx.collections.FXCollections;
@@ -193,7 +185,7 @@ public class FXMLController implements Initializable {
 
 	private void updateStats() {
 		// Compute TH stats
-		final int[] thNumber = new int[new TownHall().getMaxLevel(null)];
+		final int[] thNumber = new int[new TownHall().getMaxLevel(0)];
 		Arrays.fill(thNumber, 0);
 		// parse player and count th levels
 		clan.getMembers().stream().forEach(p -> thNumber[p.getTownHall()]++);
@@ -328,47 +320,20 @@ public class FXMLController implements Initializable {
 
     @FXML
 	private void addBuilding(ActionEvent event) {
-		Building newBuilding = null;
-		switch (cbBuilding.getValue()) {
-		case AIR_DEFENSE:
-			newBuilding = new AirDefense();
-			break;
-		case ARCHER_TOWER:
-			newBuilding = new ArcherTower();
-			break;
-		case CANNON:
-			newBuilding = new Cannon();
-			break;
-		case GOLD_MINE:
-			newBuilding = new GoldMine();
-			break;
-		case HIDDEN_TESLA:
-			newBuilding = new HiddenTesla();
-			break;
-		case INFERNO_TOWER:
-			newBuilding = new InfernoTower();
-			break;
-		case MORTAR:
-			newBuilding = new Mortar();
-			break;
-		case TOWN_HALL:
-			// newBuilding = new TownHall();
-			LOGGER.info("Do not add town hall from here");
-			break;
-		case WIZARD_TOWER:
-			newBuilding = new WizardTower();
-			break;
-		case X_BOW:
-			newBuilding = new XBow();
-			break;
-		default:
-			System.err.println("Unhandled building type : " + cbBuilding.getValue());
-		}
+		Building newBuilding = BuildingFactory.createBuilding(cbBuilding.getValue());
 		if (newBuilding != null) {
 			newBuilding.setLevel(cbLevel.getValue());
 			cbMember.getValue().addBuilding(newBuilding);
 			updateStats();
 		}
+	}
+
+    @FXML
+	private void addMaxBuilding(ActionEvent event) {
+		cbMember.getValue().getBuildings().clear();
+		cbMember.getValue().getBuildings().addAll(BuildingFactory.getMax(cbMember.getValue().getTownHall()));
+		updateStats();
+
 	}
 
     @FXML

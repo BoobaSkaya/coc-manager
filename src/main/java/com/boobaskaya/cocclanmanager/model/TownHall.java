@@ -30,7 +30,7 @@ public class TownHall extends Building{
     }
 
     @Override
-    public int getMaxLevel(TownHall hdv) {
+    public int getMaxLevel(int thLevel) {
         return 10;
     }
 

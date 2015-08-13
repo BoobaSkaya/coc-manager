@@ -94,6 +94,9 @@ public class ConfigTest {
 		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(9));
 		Assert.assertEquals(6, c.getMaxNumberPerTHLevel(9));
 		Assert.assertEquals(7, c.getMaxNumberPerTHLevel(10));
+
+		c = Config.parse("mortar");
+		Assert.assertEquals(4, c.getMaxNumberPerTHLevel(8));
 	}
 
 }
