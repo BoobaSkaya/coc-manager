@@ -43,7 +43,7 @@ public class Player implements Cloneable {
 	private final static ArrayList<List<Building>> MAX_BUILDINGS_PER_TH = new ArrayList<>();
 
 	static{
-		for(int i = 0 ; i < new TownHall().getMaxLevel(0);i++){
+		for(int i = 0 ; i <= new TownHall().getMaxLevel(0);i++){
 			MAX_BUILDINGS_PER_TH.add(BuildingFactory.getMax(i));
 		}
 	}

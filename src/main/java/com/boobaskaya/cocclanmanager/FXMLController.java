@@ -191,7 +191,7 @@ public class FXMLController implements Initializable {
 
 	private void updateStats() {
 		// Compute TH stats
-		final int[] thNumber = new int[new TownHall().getMaxLevel(0)];
+		final int[] thNumber = new int[new TownHall().getMaxLevel(0)+1];
 		Arrays.fill(thNumber, 0);
 		// parse player and count th levels
 		clan.getMembers().stream().forEach(p -> thNumber[p.getTownHall()]++);
