@@ -34,6 +34,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -74,6 +76,10 @@ public class FXMLController implements Initializable {
     private ComboBox<Integer> cbLevel;
 	@FXML
 	private PieChart thPieChart;
+	@FXML
+	private TabPane mainTabPane;
+	@FXML
+	private Tab memberTab;
 
 	private ObservableList<Data> thPieChartData;
 	@FXML
@@ -240,6 +246,14 @@ public class FXMLController implements Initializable {
             clan.getMembers().remove(p);
         });
 		updateStats();
+    }
+
+    @FXML
+    private void editMemberAction(ActionEvent event) {
+        //select the member in the combobox
+    	cbMember.setValue(memberTable.getSelectionModel().getSelectedItem());
+    	//and switch to tab
+    	mainTabPane.getSelectionModel().select(memberTab);
     }
 
     @FXML

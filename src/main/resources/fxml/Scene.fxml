@@ -10,7 +10,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.boobaskaya.cocclanmanager.FXMLController">
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="clan">
             <content>
@@ -59,9 +59,11 @@
                               </TableView>
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
-                                    <Button mnemonicParsing="false" onAction="#addMember" styleClass="add" text="Add" />
+                                    <Button mnemonicParsing="false" onAction="#addMember" styleClass="add" text="+1" />
+                                    <Button mnemonicParsing="false" onAction="#rmMember" styleClass="del" text="-1" />
+                                    <Separator orientation="VERTICAL" />
+                                    <Button mnemonicParsing="false" onAction="#editMemberAction" text="Edit" />
                                     <Button mnemonicParsing="false" onAction="#cloneMember" text="Clone" />
-                                    <Button mnemonicParsing="false" onAction="#rmMember" styleClass="del" text="Rm" />
                                 </items>
                               </ToolBar>
                            </children>
@@ -70,7 +72,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="member">
+          <Tab fx:id="memberTab" text="member">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -119,9 +121,10 @@
                                     <ComboBox fx:id="cbBuilding" onAction="#cbBuildingAction" prefWidth="150.0" />
                                     <Label text="level" />
                                     <ComboBox fx:id="cbLevel" onAction="#cbLevelAction" prefWidth="150.0" />
-                                    <Button mnemonicParsing="false" onAction="#addMaxBuilding" text="Max" />
                                     <Button mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="+1" />
                                     <Button mnemonicParsing="false" onAction="#rmBuilding" styleClass="del" text="-1" />
+                                    <Separator orientation="VERTICAL" />
+                                    <Button mnemonicParsing="false" onAction="#addMaxBuilding" text="Max" />
                                  </items>
                               </ToolBar>
                            </children>
