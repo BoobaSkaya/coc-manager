@@ -1,6 +1,8 @@
 
 package com.boobaskaya.cocclanmanager.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -35,6 +37,16 @@ public class Player implements Cloneable {
 	private final SimpleIntegerProperty hitpoints;
 	private final SimpleIntegerProperty goldCost;
 	private final SimpleIntegerProperty elixirCost;
+	private final SimpleIntegerProperty progressPercentage;
+
+	//cached max players
+	private final static ArrayList<List<Building>> MAX_BUILDINGS_PER_TH = new ArrayList<>();
+
+	static{
+		for(int i = 0 ; i < new TownHall().getMaxLevel(0);i++){
+			MAX_BUILDINGS_PER_TH.add(BuildingFactory.getMax(i));
+		}
+	}
 
 	public Player() {
 		this("player#" + (INDEX));
@@ -51,6 +63,8 @@ public class Player implements Cloneable {
 		this.hitpoints = new SimpleIntegerProperty();
 		this.goldCost = new SimpleIntegerProperty();
 		this.elixirCost = new SimpleIntegerProperty();
+		this.progressPercentage = new SimpleIntegerProperty();
+
 
 		this.buildings.addListener(new ListChangeListener<Building>() {
 
@@ -77,6 +91,14 @@ public class Player implements Cloneable {
 				.set(buildings.stream().filter(p -> p.getCostType() == CostType.GOLD).mapToInt(p -> p.getCost()).sum());
 		this.elixirCost.set(
 				buildings.stream().filter(p -> p.getCostType() == CostType.ELIXIR).mapToInt(p -> p.getCost()).sum());
+		//progress percentage
+		double maxDPS = getMaxDPS();
+		double dps    = dpsProperty().getValue();
+		this.progressPercentage.set((int) (100*(dps)/maxDPS));
+	}
+
+	public int getMaxDPS(){
+		return MAX_BUILDINGS_PER_TH.get(getTownHall()).stream().mapToInt(p -> p.getDPS()).sum();
 	}
 
 	@XmlAttribute(name = "pseudo")
@@ -100,6 +122,7 @@ public class Player implements Cloneable {
 	public void setTownHall(int hdv) {
 		this.townHall.set(hdv);
 		this.townHallBuilding.setLevel(hdv);
+		updateStats();
 	}
 
 	public int getTownHall() {
@@ -168,6 +191,10 @@ public class Player implements Cloneable {
 
 	public SimpleIntegerProperty elixircostProperty() {
 		return this.elixirCost;
+	}
+
+	public SimpleIntegerProperty progressProperty() {
+		return this.progressPercentage;
 	}
 
 	@Override

@@ -40,6 +40,11 @@
                                             <PropertyValueFactory property="dps" /> 
                                         </cellValueFactory>
                                   </TableColumn>
+                                  <TableColumn prefWidth="75.0" text="dpsProgress">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="progress" />
+                                       </cellValueFactory>
+                                    </TableColumn>
                                   <TableColumn prefWidth="75.0" text="air dps">
                                        <cellValueFactory>
                                           <PropertyValueFactory property="airdps" />
