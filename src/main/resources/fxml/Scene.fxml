@@ -8,7 +8,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.boobaskaya.cocclanmanager.FXMLController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.boobaskaya.cocclanmanager.FXMLController">
    <center>
       <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -125,9 +125,20 @@
                                     <Label text="Building" />
                                     <ComboBox fx:id="cbBuilding" onAction="#cbBuildingAction" prefWidth="150.0" />
                                     <Label text="level" />
-                                    <ComboBox fx:id="cbLevel" onAction="#cbLevelAction" prefWidth="150.0" />
-                                    <Button mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="+1" />
                                     <Button mnemonicParsing="false" onAction="#rmBuilding" styleClass="del" text="-1" />
+                                    <Button fx:id="addBuildingL1" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L1" />
+                                    <Button fx:id="addBuildingL2" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L2" />
+                                    <Button fx:id="addBuildingL3" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L3" />
+                                    <Button fx:id="addBuildingL4" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L4" />
+                                    <Button fx:id="addBuildingL5" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L5" />
+                                    <Button fx:id="addBuildingL6" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L6" />
+                                    <Button fx:id="addBuildingL7" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L7" />
+                                    <Button fx:id="addBuildingL8" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L8" />
+                                    <Button fx:id="addBuildingL9" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L9" />
+                                    <Button fx:id="addBuildingL10" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L10" />
+                                    <Button fx:id="addBuildingL11" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L11" />
+                                    <Button fx:id="addBuildingL12" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L12" />
+                                    <Button fx:id="addBuildingL13" mnemonicParsing="false" onAction="#addBuilding" styleClass="add" text="L13" />
                                     <Separator orientation="VERTICAL" />
                                     <Button mnemonicParsing="false" onAction="#addMaxBuilding" text="Max" />
                                  </items>

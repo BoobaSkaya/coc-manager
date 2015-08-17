@@ -30,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -72,8 +73,6 @@ public class FXMLController implements Initializable {
 	private ComboBox<Integer> cbTownHall;
     @FXML
     private ComboBox<BuildingType> cbBuilding;
-    @FXML
-    private ComboBox<Integer> cbLevel;
 	@FXML
 	private PieChart thPieChart;
 	@FXML
@@ -86,6 +85,22 @@ public class FXMLController implements Initializable {
 	private PieChart buildingsPieChart;
 
 	private ObservableList<Data> buildingsPieChartData;
+
+	@FXML Button addBuildingL1;
+	@FXML Button addBuildingL2;
+	@FXML Button addBuildingL3;
+	@FXML Button addBuildingL4;
+	@FXML Button addBuildingL5;
+	@FXML Button addBuildingL6;
+	@FXML Button addBuildingL7;
+	@FXML Button addBuildingL8;
+	@FXML Button addBuildingL9;
+	@FXML Button addBuildingL10;
+	@FXML Button addBuildingL11;
+	@FXML Button addBuildingL12;
+	@FXML Button addBuildingL13;
+
+	private final ArrayList<Button> addBuildingButtons = new ArrayList<>();
 
 	private Stage stage;
 
@@ -122,10 +137,6 @@ public class FXMLController implements Initializable {
 
         cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
         cbBuilding.setValue(BuildingType.CANNON);
-		cbLevel.setItems(
-				FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }));
-
-        cbLevel.setValue(1);
 		// buttonCell permit to customize the combox box cell when displayed
 		cbMember.setButtonCell(new ListCell<Player>() {
 			@Override
@@ -153,6 +164,22 @@ public class FXMLController implements Initializable {
 			}
 		});
 		cbTownHall.setItems(FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+
+		//store buttons in an array for an easy retrieval
+		addBuildingButtons.clear();
+		addBuildingButtons.add(addBuildingL1);
+		addBuildingButtons.add(addBuildingL2);
+		addBuildingButtons.add(addBuildingL3);
+		addBuildingButtons.add(addBuildingL4);
+		addBuildingButtons.add(addBuildingL5);
+		addBuildingButtons.add(addBuildingL6);
+		addBuildingButtons.add(addBuildingL7);
+		addBuildingButtons.add(addBuildingL8);
+		addBuildingButtons.add(addBuildingL9);
+		addBuildingButtons.add(addBuildingL10);
+		addBuildingButtons.add(addBuildingL11);
+		addBuildingButtons.add(addBuildingL12);
+		addBuildingButtons.add(addBuildingL13);
 
 		// Stats
 		thPieChartData = FXCollections.observableArrayList();
@@ -187,6 +214,7 @@ public class FXMLController implements Initializable {
             this.cbMemberAction(null);
         }
 		updateStats();
+		updateAccessibleLevels();
     }
 
 	private void updateStats() {
@@ -319,24 +347,36 @@ public class FXMLController implements Initializable {
 		LOGGER.info("cbHdv action to " + cbTownHall.getValue());
 		cbMember.getValue().setTownHall(cbTownHall.getValue());
 		updateStats();
+		updateAccessibleLevels();
     }
 
     @FXML
     private void cbBuildingAction(ActionEvent event) {
         System.out.println("Building selected");
         //change accessible levels?
+        updateAccessibleLevels();
     }
 
-    @FXML
-    private void cbLevelAction(ActionEvent event) {
-        //nothing to do
-    }
+    private void updateAccessibleLevels() {
+		//get selected building
+    	BuildingType b = cbBuilding.getValue();
+    	int maxLevel = BuildingFactory.createBuilding(b).getMaxLevel(cbMember.getValue()!= null?cbMember.getValue().getTownHall():0);
+    	for(int i =0;i<addBuildingButtons.size();i++){
+    		if(i < maxLevel){
+    			addBuildingButtons.get(i).setDisable(false);
+    		}else{
+    			addBuildingButtons.get(i).setDisable(true);
+    		}
+    	}
+	}
 
-    @FXML
+	@FXML
 	private void addBuilding(ActionEvent event) {
 		Building newBuilding = BuildingFactory.createBuilding(cbBuilding.getValue());
 		if (newBuilding != null) {
-			newBuilding.setLevel(cbLevel.getValue());
+			//The level of the building depends on the button that issued the event.
+			int buildingLevel = Integer.parseInt(((Button) event.getSource()).getId().replace("addBuildingL", ""));
+			newBuilding.setLevel(buildingLevel);
 			cbMember.getValue().addBuilding(newBuilding);
 			updateStats();
 		}
