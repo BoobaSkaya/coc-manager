@@ -156,6 +156,14 @@
                      </children>
                      <children>
                         <PieChart fx:id="buildingsPieChart" title="Buildings pie chart" />
+                        <BubbleChart fx:id="bubbleChart">
+                          <xAxis>
+                            <NumberAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BubbleChart>
                      </children>
                   </VBox>
                </content>

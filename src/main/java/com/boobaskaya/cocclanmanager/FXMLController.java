@@ -28,8 +28,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BubbleChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -86,6 +89,9 @@ public class FXMLController implements Initializable {
 
 	private ObservableList<Data> buildingsPieChartData;
 
+	@FXML
+	private BubbleChart<Integer, Integer> bubbleChart;
+
 	@FXML Button addBuildingL1;
 	@FXML Button addBuildingL2;
 	@FXML Button addBuildingL3;
@@ -103,6 +109,8 @@ public class FXMLController implements Initializable {
 	private final ArrayList<Button> addBuildingButtons = new ArrayList<>();
 
 	private Stage stage;
+
+	private ObservableList<Series<Integer, Integer>> bbledatas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -187,6 +195,7 @@ public class FXMLController implements Initializable {
 
 		buildingsPieChartData = FXCollections.observableArrayList();
 		buildingsPieChart.setData(buildingsPieChartData);
+
 		// load and set initial datas
 		reloadFile();
     }
@@ -245,6 +254,15 @@ public class FXMLController implements Initializable {
 				buildingsPieChartData.add(newData);
 			}
 		}
+
+		//bubble stats
+		bbledatas = FXCollections.observableArrayList();
+		bubbleChart.setData(bbledatas);
+		Series<Player, Building> serie = new Series<>();
+		ObservableList<XYChart.Data<Integer, Integer>> serieData = FXCollections.observableArrayList();
+		serieData.add(new XYChart.Data<Integer, Integer>(clan.getMembers().get(0).getTownHall(), clan.getMembers().get(0).get));
+		serie.setData(serieData);
+		bbledatas.add(serie);
 	}
 
 	@FXML
