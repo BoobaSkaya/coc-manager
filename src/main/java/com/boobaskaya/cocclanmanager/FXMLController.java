@@ -56,26 +56,26 @@ public class FXMLController implements Initializable {
 
 	private static File clanFile = new File("clan.xml");
 
-    private Clan clan;
+	private Clan clan;
 
-    @FXML
+	@FXML
 	private BorderPane mainBorderPane;
 	@FXML
-    private TableView<Player> memberTable;
-    @FXML
-    private TableColumn<Player, String> pseudoColumn;
-    @FXML
+	private TableView<Player> memberTable;
+	@FXML
+	private TableColumn<Player, String> pseudoColumn;
+	@FXML
 	private TableColumn<Player, Integer> TownHallColumn;
-    @FXML
+	@FXML
 	private TableColumn<Building, Integer> levelColumn;
 	@FXML
-    private TableView<Building> buildingTable;
-    @FXML
-    private ComboBox<Player> cbMember;
-    @FXML
+	private TableView<Building> buildingTable;
+	@FXML
+	private ComboBox<Player> cbMember;
+	@FXML
 	private ComboBox<Integer> cbTownHall;
-    @FXML
-    private ComboBox<BuildingType> cbBuilding;
+	@FXML
+	private ComboBox<BuildingType> cbBuilding;
 	@FXML
 	private PieChart thPieChart;
 	@FXML
@@ -92,19 +92,32 @@ public class FXMLController implements Initializable {
 	@FXML
 	private BubbleChart<Integer, Integer> bubbleChart;
 
-	@FXML Button addBuildingL1;
-	@FXML Button addBuildingL2;
-	@FXML Button addBuildingL3;
-	@FXML Button addBuildingL4;
-	@FXML Button addBuildingL5;
-	@FXML Button addBuildingL6;
-	@FXML Button addBuildingL7;
-	@FXML Button addBuildingL8;
-	@FXML Button addBuildingL9;
-	@FXML Button addBuildingL10;
-	@FXML Button addBuildingL11;
-	@FXML Button addBuildingL12;
-	@FXML Button addBuildingL13;
+	@FXML
+	Button addBuildingL1;
+	@FXML
+	Button addBuildingL2;
+	@FXML
+	Button addBuildingL3;
+	@FXML
+	Button addBuildingL4;
+	@FXML
+	Button addBuildingL5;
+	@FXML
+	Button addBuildingL6;
+	@FXML
+	Button addBuildingL7;
+	@FXML
+	Button addBuildingL8;
+	@FXML
+	Button addBuildingL9;
+	@FXML
+	Button addBuildingL10;
+	@FXML
+	Button addBuildingL11;
+	@FXML
+	Button addBuildingL12;
+	@FXML
+	Button addBuildingL13;
 
 	private final ArrayList<Button> addBuildingButtons = new ArrayList<>();
 
@@ -112,21 +125,21 @@ public class FXMLController implements Initializable {
 
 	private ObservableList<Series<Integer, Integer>> bbledatas;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //Clan page
-        memberTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        memberTable.setEditable(true);
-        pseudoColumn.setCellFactory(TextFieldTableCell.<Player>forTableColumn());
-        pseudoColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Player, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Player, String> event) {
-                System.out.println("New pseudo for player : " + event.getNewValue());
-                event.getRowValue().setPseudo(event.getNewValue());
-            }
-        });
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		// Clan page
+		memberTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		memberTable.setEditable(true);
+		pseudoColumn.setCellFactory(TextFieldTableCell.<Player> forTableColumn());
+		pseudoColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Player, String>>() {
+			@Override
+			public void handle(TableColumn.CellEditEvent<Player, String> event) {
+				System.out.println("New pseudo for player : " + event.getNewValue());
+				event.getRowValue().setPseudo(event.getNewValue());
+			}
+		});
 		//////////////
-        // Member page
+		// Member page
 		//////////////
 		buildingTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		buildingTable.setEditable(true);
@@ -143,8 +156,8 @@ public class FXMLController implements Initializable {
 			}
 		});
 
-        cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
-        cbBuilding.setValue(BuildingType.CANNON);
+		cbBuilding.setItems(FXCollections.observableArrayList(BuildingType.values()));
+		cbBuilding.setValue(BuildingType.CANNON);
 		// buttonCell permit to customize the combox box cell when displayed
 		cbMember.setButtonCell(new ListCell<Player>() {
 			@Override
@@ -173,7 +186,7 @@ public class FXMLController implements Initializable {
 		});
 		cbTownHall.setItems(FXCollections.observableArrayList(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
 
-		//store buttons in an array for an easy retrieval
+		// store buttons in an array for an easy retrieval
 		addBuildingButtons.clear();
 		addBuildingButtons.add(addBuildingL1);
 		addBuildingButtons.add(addBuildingL2);
@@ -198,37 +211,37 @@ public class FXMLController implements Initializable {
 
 		// load and set initial datas
 		reloadFile();
-    }
+	}
 
-    private void reloadFile() {
-        if (clanFile.exists()) {
-            try {
-                setClan(JAXBTools.fromFile(clanFile, Clan.class));
-            } catch (JAXBException ex) {
-                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+	private void reloadFile() {
+		if (clanFile.exists()) {
+			try {
+				setClan(JAXBTools.fromFile(clanFile, Clan.class));
+			} catch (JAXBException ex) {
+				Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		} else {
 			// no file, create default clan
 			setClan(new Clan());
-        }
-    }
+		}
+	}
 
-    private void setClan(Clan clan) {
-        this.clan = clan;
-        memberTable.setItems(clan.getMembers());
-        cbMember.setItems(clan.getMembers());
-        //simulate cbMember action
-        if (clan.getMembers().size() > 0) {
-            cbMember.setValue(clan.getMembers().get(0));
-            this.cbMemberAction(null);
-        }
+	private void setClan(Clan clan) {
+		this.clan = clan;
+		memberTable.setItems(clan.getMembers());
+		cbMember.setItems(clan.getMembers());
+		// simulate cbMember action
+		if (clan.getMembers().size() > 0) {
+			cbMember.setValue(clan.getMembers().get(0));
+			this.cbMemberAction(null);
+		}
 		updateStats();
 		updateAccessibleLevels();
-    }
+	}
 
 	private void updateStats() {
 		// Compute TH stats
-		final int[] thNumber = new int[new TownHall().getMaxLevel(0)+1];
+		final int[] thNumber = new int[new TownHall().getMaxLevel(0) + 1];
 		Arrays.fill(thNumber, 0);
 		// parse player and count th levels
 		clan.getMembers().stream().forEach(p -> thNumber[p.getTownHall()]++);
@@ -255,21 +268,24 @@ public class FXMLController implements Initializable {
 			}
 		}
 
-		//bubble stats
+		// bubble stats
 		bbledatas = FXCollections.observableArrayList();
 		bubbleChart.setData(bbledatas);
 		Series<Player, Building> serie = new Series<>();
 		ObservableList<XYChart.Data<Integer, Integer>> serieData = FXCollections.observableArrayList();
-		serieData.add(new XYChart.Data<Integer, Integer>(clan.getMembers().get(0).getTownHall(), clan.getMembers().get(0).get));
-		serie.setData(serieData);
-		bbledatas.add(serie);
+		/*
+		 * serieData.add(new XYChart.Data<Integer,
+		 * Integer>(clan.getMembers().get(0).getTownHall(),
+		 * clan.getMembers().get(0).get)); serie.setData(serieData);
+		 * bbledatas.add(serie);
+		 */
 	}
 
 	@FXML
-    private void addMember(ActionEvent event) {
-        clan.getMembers().add(new Player());
+	private void addMember(ActionEvent event) {
+		clan.getMembers().add(new Player());
 		updateStats();
-    }
+	}
 
 	@FXML
 	private void cloneMember(ActionEvent event) {
@@ -283,26 +299,26 @@ public class FXMLController implements Initializable {
 		updateStats();
 	}
 
-    @FXML
-    private void rmMember(ActionEvent event) {
-        //retrieve the index of the item to remove
-    	ArrayList<Player> toBeRemoved = new ArrayList<>();
-    	toBeRemoved.addAll(memberTable.getSelectionModel().getSelectedItems());
+	@FXML
+	private void rmMember(ActionEvent event) {
+		// retrieve the index of the item to remove
+		ArrayList<Player> toBeRemoved = new ArrayList<>();
+		toBeRemoved.addAll(memberTable.getSelectionModel().getSelectedItems());
 		toBeRemoved.stream().forEach((p) -> {
-            clan.getMembers().remove(p);
-        });
+			clan.getMembers().remove(p);
+		});
 		updateStats();
-    }
+	}
 
-    @FXML
-    private void editMemberAction(ActionEvent event) {
-        //select the member in the combobox
-    	cbMember.setValue(memberTable.getSelectionModel().getSelectedItem());
-    	//and switch to tab
-    	mainTabPane.getSelectionModel().select(memberTab);
-    }
+	@FXML
+	private void editMemberAction(ActionEvent event) {
+		// select the member in the combobox
+		cbMember.setValue(memberTable.getSelectionModel().getSelectedItem());
+		// and switch to tab
+		mainTabPane.getSelectionModel().select(memberTab);
+	}
 
-    @FXML
+	@FXML
 	private void openAction(ActionEvent event) {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Open clan file");
@@ -313,12 +329,12 @@ public class FXMLController implements Initializable {
 			updateWindowTitle();
 			reloadFile();
 		}
-    }
+	}
 
-    @FXML
-    private void saveAction(ActionEvent event) {
-        save();
-    }
+	@FXML
+	private void saveAction(ActionEvent event) {
+		save();
+	}
 
 	@FXML
 	private void saveAsAction(ActionEvent event) {
@@ -350,49 +366,51 @@ public class FXMLController implements Initializable {
 		System.exit(0);
 	}
 
-    @FXML
-    private void cbMemberAction(ActionEvent event) {
-        System.out.println("Member " + cbMember.getValue() + " selected");
-        Player selectedPlayer = cbMember.getValue();
+	@FXML
+	private void cbMemberAction(ActionEvent event) {
+		System.out.println("Member " + cbMember.getValue() + " selected");
+		Player selectedPlayer = cbMember.getValue();
 		if (selectedPlayer != null) {
 			buildingTable.setItems(selectedPlayer.getBuildings());
 			cbTownHall.setValue(selectedPlayer.getTownHall());
 		}
-    }
+	}
 
-    @FXML
+	@FXML
 	private void cbTownHallAction(ActionEvent event) {
 		LOGGER.info("cbHdv action to " + cbTownHall.getValue());
 		cbMember.getValue().setTownHall(cbTownHall.getValue());
 		updateStats();
 		updateAccessibleLevels();
-    }
+	}
 
-    @FXML
-    private void cbBuildingAction(ActionEvent event) {
-        System.out.println("Building selected");
-        //change accessible levels?
-        updateAccessibleLevels();
-    }
+	@FXML
+	private void cbBuildingAction(ActionEvent event) {
+		System.out.println("Building selected");
+		// change accessible levels?
+		updateAccessibleLevels();
+	}
 
-    private void updateAccessibleLevels() {
-		//get selected building
-    	BuildingType b = cbBuilding.getValue();
-    	int maxLevel = BuildingFactory.createBuilding(b).getMaxLevel(cbMember.getValue()!= null?cbMember.getValue().getTownHall():0);
-    	for(int i =0;i<addBuildingButtons.size();i++){
-    		if(i < maxLevel){
-    			addBuildingButtons.get(i).setDisable(false);
-    		}else{
-    			addBuildingButtons.get(i).setDisable(true);
-    		}
-    	}
+	private void updateAccessibleLevels() {
+		// get selected building
+		BuildingType b = cbBuilding.getValue();
+		int maxLevel = BuildingFactory.createBuilding(b)
+				.getMaxLevel(cbMember.getValue() != null ? cbMember.getValue().getTownHall() : 0);
+		for (int i = 0; i < addBuildingButtons.size(); i++) {
+			if (i < maxLevel) {
+				addBuildingButtons.get(i).setDisable(false);
+			} else {
+				addBuildingButtons.get(i).setDisable(true);
+			}
+		}
 	}
 
 	@FXML
 	private void addBuilding(ActionEvent event) {
 		Building newBuilding = BuildingFactory.createBuilding(cbBuilding.getValue());
 		if (newBuilding != null) {
-			//The level of the building depends on the button that issued the event.
+			// The level of the building depends on the button that issued the
+			// event.
 			int buildingLevel = Integer.parseInt(((Button) event.getSource()).getId().replace("addBuildingL", ""));
 			newBuilding.setLevel(buildingLevel);
 			cbMember.getValue().addBuilding(newBuilding);
@@ -400,7 +418,7 @@ public class FXMLController implements Initializable {
 		}
 	}
 
-    @FXML
+	@FXML
 	private void addMaxBuilding(ActionEvent event) {
 		cbMember.getValue().getBuildings().clear();
 		cbMember.getValue().getBuildings().addAll(BuildingFactory.getMax(cbMember.getValue().getTownHall()));
@@ -408,8 +426,8 @@ public class FXMLController implements Initializable {
 
 	}
 
-    @FXML
-    private void rmBuilding(ActionEvent event) {
+	@FXML
+	private void rmBuilding(ActionEvent event) {
 		// get the selected Player
 		Player player = cbMember.getValue();
 		// get the selected buildings
@@ -417,7 +435,7 @@ public class FXMLController implements Initializable {
 		toBeRemoved.addAll(buildingTable.getSelectionModel().getSelectedItems());
 		toBeRemoved.stream().forEach(p -> player.getBuildings().remove(p));
 		updateStats();
-    }
+	}
 
 	@FXML
 	private void aboutAction(ActionEvent event) {
